@@ -5,7 +5,13 @@ from django.db import models
 #Model for the Users table
 #Contains information about the users
 class Users(models.Model):
-    pass
+    user_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=255)
+    email = models.EmailField()
+    #password_hash or password
+    created_date_time = models.DateTimeField()
+    last_login_time = models.DateTimeField()
+    
 
 # Model for the Stock table
 # Contains basic information about each stock
