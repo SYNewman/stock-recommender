@@ -26,7 +26,10 @@ class StockData(models.Model):
 # Model for the Recommendations table
 # Contains the stocks which are recommended and relevant data
 class Recommendations(models.Model):
-    pass
+    recommendation_id = models.AutoField(primary_key=True)
+    stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    recommendation_type = models.CharField(max_length=100)
+    generated_time = models.DateTimeField()
 
 #Model for the Users table
 #Contains information about the users
