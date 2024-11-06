@@ -5,7 +5,7 @@ from django.db import models
 # Model for the Stock table
 # Contains basic information about each stock
 class Stock(models.Model):
-    #stock_id = models. #(Primary Key, unique identifier for each stock)
+    stock_id = models.AutoField(primary_key=True)
     ticker = models.CharField(max_length=5)
     company_name = models.CharField(max_length=100)
     sector = models.CharField(max_length=100)
@@ -14,8 +14,14 @@ class Stock(models.Model):
 # Model for the Stock Data table
 # Contains the main data for each stock
 class StockData(models.Model):
-    #stock_id
-    pass
+    data_id = models.AutoField(primary_key=True)
+    stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    date = models.DateField()
+    open_price = models.FloatField()
+    close_price = models.FloatField()
+    high_price = models.FloatField()
+    low_price = models.FloatField()
+    volume = models.IntegerField()
 
 # Model for the Recommendations table
 # Contains the stocks which are recommended and relevant data
