@@ -5,7 +5,7 @@ from django.db import models
 # Model for the Stock table
 # Contains basic information about each stock
 class Stock(models.Model):
-    stock_id = models. #(Primary Key, unique identifier for each stock)
+    #stock_id = models. #(Primary Key, unique identifier for each stock)
     ticker = models.CharField(max_length=5)
     company_name = models.CharField(max_length=100)
     sector = models.CharField(max_length=100)
