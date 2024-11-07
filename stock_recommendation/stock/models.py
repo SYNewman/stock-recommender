@@ -1,9 +1,6 @@
 from django.db import models
 
-# Each class is a model. A model is a table in the database.
-
-#Model for the Users table
-#Contains information about the users
+#Contains information about each user
 class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255)
@@ -12,8 +9,6 @@ class Users(models.Model):
     created_date_time = models.DateTimeField()
     last_login_time = models.DateTimeField()
     
-
-# Model for the Stock table
 # Contains basic information about each stock
 class Stock(models.Model):
     stock_id = models.AutoField(primary_key=True)
@@ -22,7 +17,6 @@ class Stock(models.Model):
     sector = models.CharField(max_length=100)
     last_updated = models.DateTimeField()
 
-# Model for the Stock Data table
 # Contains the main data for each stock
 class StockData(models.Model):
     data_id = models.AutoField(primary_key=True)
@@ -34,7 +28,6 @@ class StockData(models.Model):
     low_price = models.FloatField()
     volume = models.IntegerField()
 
-# Model for the Recommendations table
 # Contains the stocks which are recommended and relevant data
 class Recommendations(models.Model):
     recommendation_id = models.AutoField(primary_key=True)
