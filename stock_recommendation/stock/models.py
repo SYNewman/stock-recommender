@@ -8,7 +8,7 @@ class Users(models.Model):
     user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
-    #password_hash or password
+    password = models.CharField(max_length=255)
     created_date_time = models.DateTimeField()
     last_login_time = models.DateTimeField()
     
