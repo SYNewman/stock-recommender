@@ -4,16 +4,20 @@ class Trading_System:
         self.list_of_strategies = []
         self.recommendations = {}
     
-    def add_stock(self, stock: Stock):
-        # Adds a new stock to the list_of_stocks
-        pass
+    def get_stocks(self, stock: Stock):
+        try:
+            # put code here to read text file with list of stocks
+            # (add .txt file with tickers to the app_logic folder)
+            pass
+        except: # add here the type of exception
+            continue
     
     def add_strategy(self, strategy: Strategy):
         # Adds a new strategy to the list_of_strategies
         pass
     
     def update_data(self):
-        # Calls each stock's get_data() method...
+        #Calls each stock's get_data() method...
         # ...to refresh data
         pass
     
