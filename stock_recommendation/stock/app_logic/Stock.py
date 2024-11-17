@@ -1,3 +1,7 @@
+import yfinance as yf
+import models.Stock
+import models.StockData
+import models.Recommendations
 class Stock:
     def __init__(self, ticker):
         self.ticker = ticker
@@ -6,12 +10,20 @@ class Stock:
         self.recommendation = None
         
     def get_data(self):
-        # gets data from yfinance
-        pass
+        info = self.ticker.info()
+        update_data(self, info)
     
-    def update_data(self):
-        # updates the database with new data
-        pass
+    def update_data(self, info):
+        # 'Stock' model
+        Stock.ticker = ticker
+        Stock.company_name = info['shortName']
+        Stock.sector = info['sector']
+        # 'StockData' model
+        StockData.open_price = info['open']
+        StockData.close_price = info['previousClose']
+        StockData.high_price = info['dayHigh']
+        StockData.low_price = info['dayLow']
+        StockData.volume = info['volume']
     
     def calculate_moving_average(self):
         pass
