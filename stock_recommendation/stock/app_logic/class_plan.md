@@ -34,13 +34,15 @@ Methods:
 
 - __init__(self, name, parameters): Initializes a strategy with a name and any required parameters.
 - apply(self, stock: Stock): Applies the strategy to a given Stock instance and returns a recommendation or signal. This is an abstract method to be overridden by subclasses.
-- Example Subclasses:
+
+Example Subclasses:
+
 - MovingAverageStrategy(Strategy):
-- apply(self, stock): Implements the moving average crossover logic, taking short_period and long_period parameters to generate a recommendation.
+  - apply(self, stock): Implements the moving average crossover logic, taking short_period and long_period parameters to generate a recommendation.
 - RSIStrategy(Strategy):
-- apply(self, stock): Implements RSI logic to generate a recommendation based on threshold values like overbought/oversold.
+  - apply(self, stock): Implements RSI logic to generate a recommendation based on threshold values like overbought/oversold.
 - BollingerBandsStrategy(Strategy):
-- apply(self, stock): Applies Bollinger Bands logic to generate a buy or sell signal based on upper/lower band crossings.
+  - apply(self, stock): Applies Bollinger Bands logic to generate a buy or sell signal based on upper/lower band crossings.
 - Each strategy will use the existing calculation methods from Stock for indicators like SMA, RSI, or Bollinger Bands and apply its specific logic to generate a recommendation.
 
 3. TradingSystem Class

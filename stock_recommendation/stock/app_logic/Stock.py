@@ -6,9 +6,11 @@ class Stock:
         self.recommendation = None
         
     def get_data(self):
+        # gets data from yfinance
         pass
     
-    def update_price_history(self):
+    def update_data(self):
+        # updates the database with new data
         pass
     
     def calculate_moving_average(self):
@@ -21,7 +23,9 @@ class Stock:
         pass
     
     def add_indicator(self):
+        # adds indicator to the indicators dict
         pass
     
     def make_recommendation(self):
+        # makes recommendation based on indicators
         pass
