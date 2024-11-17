@@ -13,7 +13,7 @@ class Stock:
         info = self.ticker.info()
         update_data(self, info)
     
-    def update_data(self, info):
+    def update_data(self, info): # Make this work for the database record which is being updated
         # 'Stock' model
         Stock.ticker = ticker
         Stock.company_name = info['shortName']
