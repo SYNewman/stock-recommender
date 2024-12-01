@@ -5,6 +5,7 @@ class RSI_Strategy(Strategy):
     def __init__(self, strategy, stats):
         super().__init__(strategy, stats)
         self.time_period = 14
+        self.stats = stats
     
     def calculate_daily_price_change(self):
         all_changes = []
