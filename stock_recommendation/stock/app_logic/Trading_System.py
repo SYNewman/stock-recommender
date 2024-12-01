@@ -2,6 +2,7 @@ import Stock
 import Strategies
 
 class Trading_System:
+    
     def __init__(self):
         self.list_of_stocks = []
         self.recommendations = {}
@@ -13,7 +14,9 @@ class Trading_System:
                 try:
                     i.strip()
                     self.list_of_stocks.append(i)
+                    # add stock to database, or check that it already exists in the db
                 except:
+                    raise error("One of the stocks could not be loaded")
                     continue
             stocks.close()
             return self.list_of_stocks
