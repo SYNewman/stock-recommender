@@ -33,5 +33,33 @@ class Stock:
         pass
     
     def make_recommendation(self):
-        # makes recommendation based on all indicators for the stock
-        pass
+        score = 0
+        ma = {ma_signal} # put proper var name and real signal from database
+        rsi = {rsi_signal}
+        bb - {bb_signal}
+        
+        if ma==buy: # make real logic for checking what the signal is
+            score += 1
+        elif ma==sell: score -= 1
+
+        if rsi==buy: score += 1
+        elif rsi==sell: score -= 1
+
+        if bb==buy: score += 1
+        elif bb==sell: score -= 1
+            
+        if score == 3:
+            #very strong buy       # actually make this update the db with the recommendation
+        elif score == 2:
+            #strong buy
+        elif score == 1:
+            #buy
+        elif score == 0:
+            #hold
+        elif score == -1:
+            #sell
+        elif score == -2:
+            #strong sell
+        elif score == -3:
+            #very strong sell
+        else: raise Error(f"Recommendation for {self.ticker} could not be calculated")
