@@ -29,7 +29,7 @@ class Stock:
         #global StockData_model_data = []
     
     def add_indicator(self):
-        # adds indicator to the indicators database
+        # adds indicator to the indicators database table
         pass
     
     def make_recommendation(self):
