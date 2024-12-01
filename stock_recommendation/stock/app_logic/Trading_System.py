@@ -1,34 +1,37 @@
+import Stock
+import Strategies
+
 class Trading_System:
-    def __init__(self, list_of_stocks, list_of_strategies):
+    def __init__(self):
         self.list_of_stocks = []
-        self.list_of_strategies = []
         self.recommendations = {}
     
     def get_stocks(self, stock: Stock):
         try:
-            # put code here to read text file with list of stocks
-            # (add .txt file with tickers to the app_logic folder)
-            pass
-        except: # add here the type of exception
-            continue
-    
-    def add_strategy(self, strategy: Strategy):
-        # Adds a new strategy to the list_of_strategies
-        pass
+            stocks = open("tickers.txt", "r")
+            for i in stocks:
+                try:
+                    i.strip()
+                    self.list_of_stocks.append(i)
+                except:
+                    continue
+            stocks.close()
+            return self.list_of_stocks
+        except:
+            raise error("List of Stocks could not be loaded.")
     
     def update_data(self):
-        #Calls each stock's get_data() method...
-        # ...to refresh data
+        data = Stock.get_data()
+        return data
+    
+    def generate_recommendations(self):
+        # Processes and aggregates signals...
+        # ...from all strategies to make a final...
+        # ...recommendation for each stock.
         pass
     
     def run_strategies(self):
         # Iterates over each stock...
         # ...and applies each strategy...
         # ...storing results in recommendations dict.
-        pass
-    
-    def generate_recommendations(self):
-        # Processes and aggregates signals...
-        # ...from all strategies to make a final...
-        # ...recommendation for each stock.
         pass

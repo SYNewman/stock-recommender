@@ -2,6 +2,7 @@ import yfinance as yf
 import models.Stock
 import models.StockData
 import models.Recommendations
+
 class Stock:
     def __init__(self, ticker):
         self.ticker = ticker
@@ -9,11 +10,9 @@ class Stock:
         self.signals = {}
         self.recommendation = None
         
-    def get_data(self):
+    # Make this work for the database record which is being updated
+    def update_data(self):
         info = self.ticker.info()
-        update_data(self, info)
-    
-    def update_data(self, info): # Make this work for the database record which is being updated
         # 'Stock' model
         Stock.ticker = ticker
         Stock.company_name = info['shortName']
@@ -24,20 +23,15 @@ class Stock:
         StockData.high_price = info['dayHigh']
         StockData.low_price = info['dayLow']
         StockData.volume = info['volume']
-    
-    def calculate_moving_average(self):
-        pass
-    
-    def calculate_RSI():
-        pass
-    
-    def calculate_bollinger_bands(self):
-        pass
+        #Ignore next 3 lines
+        ######Below is alternate code############
+        #global Stock_model_data = []
+        #global StockData_model_data = []
     
     def add_indicator(self):
-        # adds indicator to the indicators dict
+        # adds indicator to the indicators database
         pass
     
     def make_recommendation(self):
-        # makes recommendation based on indicators
+        # makes recommendation based on all indicators for the stock
         pass

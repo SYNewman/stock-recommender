@@ -1,8 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "../.."
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": ".."
+        },
+        {
+            "path": "../../../../Python/Basic Stock Recommender"
+        },
+        {
+            "path": "../../../../Python/NEA trials"
+        }
+    ]
 }
