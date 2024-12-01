@@ -26,5 +26,4 @@ class Trading_System:
         # This method will probably store/run the queue for all tasks
         # This method may need to be split into multiple methods to shorten it
         # work out how this method will work with the queue and with the frontend
-        # this is a trial
         pass
