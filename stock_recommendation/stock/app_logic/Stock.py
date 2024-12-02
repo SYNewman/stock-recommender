@@ -1,36 +1,35 @@
+from datetime import date
 import yfinance as yf
 import models.Stock
 import models.StockData
 import models.Recommendations
 
+
 class Stock:
+    
     def __init__(self, ticker):
         self.ticker = ticker
         self.price_history = None
         self.signals = {}
         self.recommendation = None
         
-    # Make this work for the database record which is being updated
-    def update_data(self):
-        info = self.ticker.info()
-        # 'Stock' model
-        Stock.ticker = ticker
-        Stock.company_name = info['shortName']
-        Stock.sector = info['sector']
-        # 'StockData' model
-        StockData.open_price = info['open']
-        StockData.close_price = info['previousClose']
-        StockData.high_price = info['dayHigh']
-        StockData.low_price = info['dayLow']
-        StockData.volume = info['volume']
-        #Ignore next 3 lines
-        ######Below is alternate code############
-        #global Stock_model_data = []
-        #global StockData_model_data = []
+    
+    def get_stock_close_prices(self, ticker):
+        current_date = date.today()
+        ticker = yf.Ticker(ticker_symbol)
+        start_date = current_date - timedelta(days=200)
+        stock_data = ticker.history(start=start_date, end=current_date)
+        return list(stock_data['Close'])
+    
+    
+    def update_data(self, ticker):
+        pass
+        
     
     def add_indicator(self):
         # adds indicator to the indicators database table
         pass
+    
     
     def make_recommendation(self):
         score = 0
