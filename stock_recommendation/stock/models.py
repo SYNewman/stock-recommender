@@ -19,18 +19,15 @@ class Stock(models.Model):
 
 # Contains the main data for each stock
 class StockData(models.Model):
-    data_id = models.AutoField(primary_key=True)
-    stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    date = models.DateField()
-    open_price = models.FloatField()
-    close_price = models.FloatField()
-    high_price = models.FloatField()
-    low_price = models.FloatField()
-    volume = models.IntegerField()
+    stock_id = models.ForeignKey(Stock, primary_key=True, on_delete=models.CASCADE)
+    current_date = models.DateField(null=True)
+    current_price = models.FloatField(null=True)
+    last_200_close_prices = models.JSONField(null=True)
 
-# Contains the stocks which are recommended and relevant data
+# Contains recommendation info
 class Recommendations(models.Model):
-    recommendation_id = models.AutoField(primary_key=True)
-    stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    recommendation_type = models.CharField(max_length=100)
-    generated_time = models.DateTimeField()
+    stock_id = models.ForeignKey(Stock, primary_key=True, on_delete=models.CASCADE)
+    moving_averages_signal = models.CharField(max_length=5, null=True)
+    rsi_signal = models.CharField(max_length=5, null=True)
+    bollinger_bands_signal = models.CharField(max_length=5, null=True)
+    overall_recommendation = models.CharField(max_length=50, null=True)
