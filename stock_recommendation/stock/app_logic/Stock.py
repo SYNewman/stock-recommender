@@ -9,20 +9,20 @@ class Stock:
     
     def __init__(self, ticker):
         self.ticker = ticker
-        self.price_history = None
+        self.price_history = []
         self.signals = {}
         self.recommendation = None
         
     
-    def get_stock_close_prices(self, ticker):
+    def get_stock_close_prices(self):
         current_date = date.today()
-        ticker = yf.Ticker(ticker_symbol)
+        ticker = yf.Ticker(self.ticker)
         start_date = current_date - timedelta(days=200)
         stock_data = ticker.history(start=start_date, end=current_date)
-        return list(stock_data['Close'])
+        self.price_history = list(stock_data['Close'])
     
     
-    def update_data(self, ticker):
+    def update_data(self):
         pass
         
     
