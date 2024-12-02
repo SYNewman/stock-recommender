@@ -1,5 +1,7 @@
 import Stock
 import Strategies
+from stock.models import Stock
+from datetime import date, datetime
 
 class Trading_System:
     
@@ -7,21 +9,26 @@ class Trading_System:
         self.list_of_stocks = []
         self.recommendations = {}
     
-    def get_stocks(self, stock: Stock):
+    def get_stocks(self):
         try:
-            stocks = open("tickers.txt", "r")
-            for i in stocks:
-                try:
-                    i.strip()
-                    self.list_of_stocks.append(i)
-                    # add stock to database, or check that it already exists in the db
-                except:
-                    raise error("One of the stocks could not be loaded")
-                    continue
-            stocks.close()
+            with open("tickers.txt", "r") as stocks:
+                for i in stocks:
+                    try:
+                        stock = i.strip()
+                        self.list_of_stocks.append(stock)
+                        does_stock_exist_in_db = Stock.objects.filter(ticker=stock).exists()
+                        if not does_stock_exist_in_db:
+                            current_date_and_time = datetime.now()
+                            new_stock = Stock(ticker=stock, company_name=None,
+                                              sector=None, last_updated=current_date_and_time)
+                            new_stock.save()
+                    except Exception as exception_type:
+                        print(f"There was a problem loading {stock}. The problem was: {exception_type}")
+                        continue
             return self.list_of_stocks
-        except:
-            raise error("List of Stocks could not be loaded.")
+        except Exception as exception_type:
+            print(f"List of Stocks could not be loaded. The problem was: {exception_type}")
+            raise
     
     def run_strategies(self):
         # Iterates over each stock and applies each strategy, ...
