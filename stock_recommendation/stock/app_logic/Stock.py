@@ -1,5 +1,7 @@
-from datetime import date
+from django.core.exceptions import ObjectDoesNotExist
+from datetime import date, datetime
 import yfinance as yf
+
 import models.Stock
 import models.StockData
 import models.Recommendations
@@ -20,11 +22,35 @@ class Stock:
         start_date = current_date - timedelta(days=200)
         stock_data = ticker.history(start=start_date, end=current_date)
         self.price_history = list(stock_data['Close'])
+        return self.price_history
     
     
-    def update_data(self):
-        pass
+    def update_data(self, primary_key):
+        stock = yf.Ticker(self.ticker)
+        stock_info = stock.info
+        current_date_and_time = datetime.now()
         
+        # Updates data for Stock model
+        try:
+            stock_model = Stock.objects.get(id=primary_key)
+            stock_model.ticker = self.ticker
+            stock_model.company_name = stock_info['shortName']
+            stock_model.sector = stock_info['sector']
+            stock_model.last_updated = current_date_and_time
+            stock_model.save()
+        except ObjectDoesNotExist:
+            print("There was a problem executing getting the data or saving it to the database.")
+        
+        # Updates data for StockData model
+        try:
+            stock_data_model = StockData.objects.get(id=primary_key)
+            stock_data_model.current_date = date.today()
+            stock_data_model.current_price = stock_info['currentPrice']
+            stock_data_model.last_200_close_prices = get_stock_close_prices()
+            stock_data_model.save()
+        except ObjectDoesNotExist:
+            print("There was a problem executing getting the data or saving it to the database.")
+    
     
     def add_indicator(self):
         # adds indicator to the indicators database table
