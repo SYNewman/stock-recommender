@@ -64,4 +64,9 @@ class Trading_System:
                 print(f"The required actions for {i} could not be run due to Error: {exception_type}")
     
     def run_operations(self):
-        pass
+        try:
+            while self.list_of_operations:
+                operations = self.list_of_operations.popleft()
+                operations()
+        except Exception as exception_type:
+            print(f"The operations could not be executed due to Error: {exception_type}")
