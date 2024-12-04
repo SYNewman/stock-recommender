@@ -2,7 +2,7 @@ from Strategies import Strategy
 
 class Bollinger_Bands_Strategy(Strategy):
     
-    def __init__(self, strategy, price, stats):
+    def __init__(self, strategy, stats, price):
         super().__init__(strategy, stats)
         self.price = price
         self.stats = stats
