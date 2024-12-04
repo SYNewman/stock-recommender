@@ -32,7 +32,7 @@ class Stock:
         
         # Updates data for Stock model
         try:
-            stock_model = Stock.objects.get(id=primary_key)
+            stock_model = Stock.objects.get(stock_id=primary_key)
             stock_model.ticker = self.ticker
             stock_model.company_name = stock_info['shortName']
             stock_model.sector = stock_info['sector']
@@ -43,7 +43,7 @@ class Stock:
         
         # Updates data for StockData model
         try:
-            stock_data_model = StockData.objects.get(id=primary_key)
+            stock_data_model = StockData.objects.get(stock_id=primary_key)
             stock_data_model.current_date = date.today()
             stock_data_model.current_price = stock_info['currentPrice']
             stock_data_model.last_200_close_prices = get_stock_close_prices()
@@ -57,34 +57,41 @@ class Stock:
         pass
     
     
-    def make_recommendation(self):
+    def make_recommendation(self, primary_key):
+        recommendation = ""
         score = 0
-        ma = {ma_signal} # put proper var name and real signal from database
-        rsi = {rsi_signal}
-        bb - {bb_signal}
         
-        if ma==buy: # make real logic for checking what the signal is
-            score += 1
-        elif ma==sell: score -= 1
-
-        if rsi==buy: score += 1
-        elif rsi==sell: score -= 1
-
-        if bb==buy: score += 1
-        elif bb==sell: score -= 1
+        try:
+            all_signals = Recommendations.objects.get(stock_id=primary_key)
+            moving_average_signal = all_signals.moving_average_signal
+            rsi_signal = all_signals.rsi_signal
+            bollinger_bands_signal = all_signals.bollinger_bands_signal
+        except Recommendations.DoesNotExist:
+            print(f"The trading signals for {self.ticker} could not be loaded to due Error: {exception_type}")
             
-        if score == 3:
-            #very strong buy       # actually make this update the db with the recommendation
-        elif score == 2:
-            #strong buy
-        elif score == 1:
-            #buy
-        elif score == 0:
-            #hold
-        elif score == -1:
-            #sell
-        elif score == -2:
-            #strong sell
-        elif score == -3:
-            #very strong sell
-        else: raise Error(f"Recommendation for {self.ticker} could not be calculated")
+        try:
+            if moving_average_signal == "Buy": score += 1
+            elif moving_average_signal == "Sell": score -= 1
+
+            if rsi_signal == "Buy": score += 1
+            elif rsi_signal == "Sell": score -= 1
+
+            if bollinger_bands_signal == "Buy": score += 1
+            elif bollinger_bands_signal == "Sell": score -= 1
+                
+            if score == 3: recommendation = "Very Strong Buy"
+            elif score == 2: recommendation = "Strong Buy"
+            elif score == 1: recommendation = "Buy"
+            elif score == 0: recommendation = "Hold"
+            elif score == -1: recommendation = "Sell"
+            elif score == -2: recommendation = "Strong Sell"
+            elif score == -3: recommendation = "Very Strong Sell"
+        except Exception as exception_type:
+            print(f"The recommendation for {self.ticker} could not be calculated due to Error: {exception_type}")
+        
+        try:
+            update_db = Recommendations.objects.get(stock_id=primary_key)
+            update_db.overall_recommendation = recommendation
+            update_db.save()
+        except Exception as exception_type:
+            print(f"The final recommendation for {self.ticker} could not be saved to the database due to Error: {exception_type}")
