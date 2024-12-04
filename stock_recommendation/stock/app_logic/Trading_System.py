@@ -1,13 +1,16 @@
 import Stock
 import Strategies
 from stock.models import Stock
+from stock.models import StockData
 from datetime import date, datetime
+from collections import deque
 
 class Trading_System:
     
     def __init__(self):
         self.list_of_stocks = []
         self.recommendations = {}
+        self.list_of_operations = deque()
     
     def get_stocks(self):
         try:
@@ -29,11 +32,36 @@ class Trading_System:
         except Exception as exception_type:
             print(f"List of Stocks could not be loaded. The problem was: {exception_type}")
             raise
+
+    def compile_queue(self):
+        self.list_of_operations.append(get_stocks())
+        for i in self.list_of_stocks:
+            try:
+                stock_object = Stock(i)
+                
+                stock_field = Stock.objects.get(ticker=i)
+                stock_id = stock_field.stock_id
+                
+                stock_id_field = StockData.objects.get(stock_id=stock_id)
+                close_prices = stock_id_field.last_200_close_prices
+                price = stock_id_field.current_price
+                
+                self.list_of_operations.append(stock_object.update_data(stock_id))
+                #runs the moving average strategy
+                moving_average_strategy = Moving_Average_Strategy("Moving Averages", close_prices, price)
+                self.list_of_operations.append(moving_average_strategy.apply_strategy())
+                
+                #runs the rsi strategy
+                rsi_strategy = RSI_Strategy("RSI", close_prices, price)
+                self.list_of_operations.append(rsi_strategy.apply_strategy())
+                
+                #runs the bollinger bands strategy
+                bollinger_band_strategy = Bollinger_Bands_Strategy("Bollinger Bands", close_prices, price)
+                self.list_of_operations.append(bollinger_band_strategy.apply_strategy())
+                
+                self.list_of_operations.append(Stock.make_recommendation(stock_id))
+            except Exception as exception_type:
+                print(f"The required actions for {i} could not be run due to Error: {exception_type}")
     
-    def run_strategies(self):
-        # Iterates over each stock and applies each strategy, ...
-        # ...storing results in recommendations table in database
-        # This method will probably store/run the queue for all tasks
-        # This method may need to be split into multiple methods to shorten it
-        # work out how this method will work with the queue and with the frontend
+    def run_operations(self):
         pass
