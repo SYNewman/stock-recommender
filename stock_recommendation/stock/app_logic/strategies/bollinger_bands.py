@@ -2,10 +2,6 @@ from Strategies import Strategy
 
 class Bollinger_Bands_Strategy(Strategy):
     
-    # maybe add queue here to run all methods to generate recommendation
-    # however, consider how this will effect/work with planned queue...
-    # ... in trading_system for all operations to generate recommendations
-    
     def __init__(self, strategy, price, stats):
         super().__init__(strategy, stats)
         self.price = price
@@ -20,8 +16,8 @@ class Bollinger_Bands_Strategy(Strategy):
     
     def calculate_mean_close(self):
         total = 0
-        #for i in (close_price for each of last 20 trading days): # make the for loop work
-            #total += i
+        for i in (close_price for each of last 20 trading days):
+            total += i
         self.mean_close = total/20
                                                                      
     def calculate_deviations(self):
