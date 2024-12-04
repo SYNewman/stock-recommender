@@ -1,4 +1,5 @@
 from Strategies import Strategy
+import models.Stock
 
 class Moving_Average_Strategy(Strategy):
     
@@ -11,7 +12,7 @@ class Moving_Average_Strategy(Strategy):
         
     def calculate_short_term_moving_average(self):
         total_close_prices = 0
-        for i in (close price for each of last 50 trading days): # should be first 50 days of stats
+        for i in self.stats[151:200]:
             total_close_prices += i
         self.short_term_moving_average = total_close_prices/50
         
@@ -22,12 +23,15 @@ class Moving_Average_Strategy(Strategy):
         self.long_term_moving_average = total_close_prices/200
     
     def generate_signal(self):
+        stock_field = Stock.objects.get(ticker=i)
+        stock_id = stock_field.stock_id
+        
         if self.price > self.short_term_moving_average and self.short_term_moving_average > self.long_term_moving_average:
-            #buy
+            Stock.add_indicator("moving averages", stock_id, "Buy")
         elif self.price < self.short_term_moving_average and self.short_term_moving_average < self.long_term_moving_average:
-            #sell
+            Stock.add_indicator("moving averages", stock_id, "Sell")
         else:
-            #hold
+            Stock.add_indicator("moving averages", stock_id, "Hold")
             
     def apply_strategy(self):
         calculate_short_term_moving_average(self)

@@ -1,4 +1,5 @@
 from Strategies import Strategy
+import models.Stock
 
 class Bollinger_Bands_Strategy(Strategy):
     
@@ -16,12 +17,12 @@ class Bollinger_Bands_Strategy(Strategy):
     
     def calculate_mean_close(self):
         total = 0
-        for i in (close_price for each of last 20 trading days):
+        for i in self.stats[181:200]:
             total += i
         self.mean_close = total/20
                                                                      
     def calculate_deviations(self):
-        for i in (close_price for each of last 20 trading days):
+        for i in self.stats[181:200]:
             deviation = i - self.mean_close
             squared_deviation = deviation*deviation
             self.deviations.append(squared_deviation)
@@ -40,12 +41,15 @@ class Bollinger_Bands_Strategy(Strategy):
         self.lower_band = self.mean_close - (2 * self.standard_deviation)
         
     def generate_signal(self):
+        stock_field = Stock.objects.get(ticker=i)
+        stock_id = stock_field.stock_id
+        
         if self.price >= self.upper_band:
-            #sell # change to give actual sell signal
+            Stock.add_indicator("bollinger bands", stock_id, "Sell")
         elif self.price <= self.lower_band:
-            #buy
+            Stock.add_indicator("bollinger bands", stock_id, "Buy")
         else:
-            #hold
+            Stock.add_indicator("bollinger bands", stock_id, "Hold")
             
     def apply_strategy(self):
         calculate_mean_close(self)

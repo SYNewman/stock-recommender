@@ -1,4 +1,5 @@
 from Strategies import Strategy
+import models.Stock
 
 class RSI_Strategy(Strategy):
     
@@ -19,7 +20,7 @@ class RSI_Strategy(Strategy):
     
     def calculate_daily_price_change(self):
         for i in range(len(self.stats-1)):
-            price_change = self.stats[i]['price'] - self.stats[i+1]['price']
+            price_change = self.stats[i] - self.stats[i+1]
             self.price_changes.append(price_change)
     
     def separate_gains_and_losses(self):
@@ -34,7 +35,7 @@ class RSI_Strategy(Strategy):
                 self.gains.append(0)
                 self.losses.append(0)
     
-    def calculate_average_gain(self): # This and next method - maybe put into one smaller method
+    def calculate_average_gain(self):
         total_gain = 0
         for i in self.gains:
             total_gain += i
@@ -47,14 +48,14 @@ class RSI_Strategy(Strategy):
         self.average_loss = total_loss / self.time_period
     
     def calculate_second_average_gain(self): # To smooth out the values
-        current_gain = self.price - self.stats[i['price']]
+        current_gain = self.price - self.stats[-1]
         if current_gain < 0:
             current_gain = 0
         previous_average_gain = average_gain * (self.time_period - 1)
         self.second_average_gain = (previous_average_gain + current_gain) / self.time_period
         
     def calculate_second_average_loss(self): # To smooth out the values
-        current_loss = self.price - self.stats[i['price']] # put real price (at runtime) here
+        current_loss = self.price - self.stats[-1]
         if current_loss < 0:
             current_loss = 0
         previous_average_loss = average_loss * (self.time_period - 1)
@@ -69,12 +70,15 @@ class RSI_Strategy(Strategy):
         self.rsi_value = 100 - (100 / (self.rs+1))
     
     def generate_signal(self):
+        stock_field = Stock.objects.get(ticker=i)
+        stock_id = stock_field.stock_id
+        
         if self.rsi_value < 30:
-            #buy
+            Stock.add_indicator("rsi", stock_id, "Buy")
         elif self.rsi_value > 70:
-            #sell
+            Stock.add_indicator("rsi", stock_id, "Sell")
         else:
-            #hold
+            Stock.add_indicator("rsi", stock_id, "Hold")
             
     def apply_strategy(self):
         calculate_daily_price_change(self)
