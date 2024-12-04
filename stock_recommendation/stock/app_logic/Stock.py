@@ -46,7 +46,7 @@ class Stock:
             stock_data_model = StockData.objects.get(stock_id=primary_key)
             stock_data_model.current_date = date.today()
             stock_data_model.current_price = stock_info['currentPrice']
-            stock_data_model.last_200_close_prices = get_stock_close_prices()
+            stock_data_model.last_200_close_prices = get_stock_close_prices(self)
             stock_data_model.save()
         except ObjectDoesNotExist:
             print("There was a problem executing getting the data or saving it to the database.")
