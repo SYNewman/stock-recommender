@@ -30,4 +30,6 @@ class Moving_Average_Strategy(Strategy):
             #hold
             
     def apply_strategy(self):
-        pass
+        calculate_short_term_moving_average(self)
+        calculate_long_term_moving_average(self)
+        generate_signal(self)

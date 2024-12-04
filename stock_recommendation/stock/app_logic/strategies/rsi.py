@@ -77,4 +77,12 @@ class RSI_Strategy(Strategy):
             #hold
             
     def apply_strategy(self):
-        pass
+        calculate_daily_price_change(self)
+        separate_gains_and_losses(self)
+        calculate_average_gain(self)
+        calculate_average_loss(self)
+        calculate_second_average_gain(self)
+        calculate_second_average_loss(self)
+        calculate_relative_strength(self)
+        calculate_rsi_value(self)
+        generate_signal(self)

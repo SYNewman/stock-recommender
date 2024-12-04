@@ -35,7 +35,7 @@ class Bollinger_Bands_Strategy(Strategy):
     def calculate_standard_deviation(self):
         self.standard_deviation = self.variance ** 0.5
     
-    def calculate_bands(self, mean_close, standard_deviation):
+    def calculate_bands(self):
         self.upper_band = self.mean_close + (2 * self.standard_deviation)
         self.lower_band = self.mean_close - (2 * self.standard_deviation)
         
@@ -48,4 +48,9 @@ class Bollinger_Bands_Strategy(Strategy):
             #hold
             
     def apply_strategy(self):
-        pass
+        calculate_mean_close(self)
+        calculate_deviations(self)
+        calculate_variance(self)
+        calculate_standard_deviation(self)
+        calculate_bands(self)
+        generate_signal(self)
