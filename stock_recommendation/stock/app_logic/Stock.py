@@ -52,9 +52,18 @@ class Stock:
             print("There was a problem executing getting the data or saving it to the database.")
     
     
-    def add_indicator(self):
-        # adds indicator to the indicators database table
-        pass
+    def add_indicator(self, strategy, primary_key, recommendation):
+        try:
+            stock_record = Recommendations.objects.get(stock_id=primary_key)
+            if strategy == "moving_averages":
+                stock_record.moving_averages_signal = recommendation
+            elif strategy == "rsi":
+                stock_record.rsi_signal = recommendation
+            elif strategy == "bollinger_bands":
+                stock_record.bollinger_bands_signal = recommendation
+            stock_record.save()
+        except Exception as exception_type:
+            print(f"The {strategy} indicator for {self.ticker} could not be added to the database due to Error: {exception_type}")
     
     
     def make_recommendation(self, primary_key):
