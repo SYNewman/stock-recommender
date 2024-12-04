@@ -55,11 +55,11 @@ class Stock:
     def add_indicator(self, strategy, primary_key, recommendation):
         try:
             stock_record = Recommendations.objects.get(stock_id=primary_key)
-            if strategy == "moving_averages":
+            if strategy == "moving averages":
                 stock_record.moving_averages_signal = recommendation
             elif strategy == "rsi":
                 stock_record.rsi_signal = recommendation
-            elif strategy == "bollinger_bands":
+            elif strategy == "bollinger bands":
                 stock_record.bollinger_bands_signal = recommendation
             stock_record.save()
         except Exception as exception_type:
