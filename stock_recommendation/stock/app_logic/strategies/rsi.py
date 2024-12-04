@@ -68,10 +68,13 @@ class RSI_Strategy(Strategy):
     def calculate_rsi_value(self):
         self.rsi_value = 100 - (100 / (self.rs+1))
     
-    def apply_strategy(self):
+    def generate_signal(self):
         if self.rsi_value < 30:
             #buy
         elif self.rsi_value > 70:
             #sell
         else:
             #hold
+            
+    def apply_strategy(self):
+        pass

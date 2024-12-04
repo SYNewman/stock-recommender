@@ -39,10 +39,13 @@ class Bollinger_Bands_Strategy(Strategy):
         self.upper_band = self.mean_close + (2 * self.standard_deviation)
         self.lower_band = self.mean_close - (2 * self.standard_deviation)
         
-    def apply_strategy(self):
+    def generate_signal(self):
         if self.price >= self.upper_band:
             #sell # change to give actual sell signal
         elif self.price <= self.lower_band:
             #buy
         else:
             #hold
+            
+    def apply_strategy(self):
+        pass

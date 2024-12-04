@@ -21,10 +21,13 @@ class Moving_Average_Strategy(Strategy):
             total_close_prices += i
         self.long_term_moving_average = total_close_prices/200
     
-    def apply_strategy(self):
+    def generate_signal(self):
         if self.price > self.short_term_moving_average and self.short_term_moving_average > self.long_term_moving_average:
             #buy
         elif self.price < self.short_term_moving_average and self.short_term_moving_average < self.long_term_moving_average:
             #sell
         else:
             #hold
+            
+    def apply_strategy(self):
+        pass
