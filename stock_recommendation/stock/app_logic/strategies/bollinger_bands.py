@@ -6,48 +6,47 @@ class Bollinger_Bands_Strategy(Strategy):
     # however, consider how this will effect/work with planned queue...
     # ... in trading_system for all operations to generate recommendations
     
-    def __init__(self, strategy, stats):
+    def __init__(self, strategy, price, stats):
         super().__init__(strategy, stats)
+        self.price = price
+        self.stats = stats
         self.mean_close = 0
         self.standard_deviation = 0
         self.upper_band = 0
         self.lower_band = 0
+        self.deviations = []
+        self.variance = 0
+        self.standard_deviation = 0
     
     def calculate_mean_close(self):
         total = 0
         #for i in (close_price for each of last 20 trading days): # make the for loop work
             #total += i
         self.mean_close = total/20
-        return self.mean_close
                                                                      
-    def calculate_deviations(self, mean_close):
-        all_deviations = []
+    def calculate_deviations(self):
         for i in (close_price for each of last 20 trading days):
             deviation = i - self.mean_close
             squared_deviation = deviation*deviation
-            all_deviations.append(squared_deviation)
-        return all_deviations
+            self.deviations.append(squared_deviation)
     
-    def calculate_variance(self, deviations):
+    def calculate_variance(self):
         total_variance = 0
-        for i in deviations:
+        for i in self.deviations:
             total_variance += i
-        variance = total_variance/20
-        return variance
+        self.variance = total_variance/20
         
-    def calculate_standard_deviation(self, variance):
-        self.standard_deviation = variance ** 0.5
-        return self.standard_deviation
+    def calculate_standard_deviation(self):
+        self.standard_deviation = self.variance ** 0.5
     
     def calculate_bands(self, mean_close, standard_deviation):
-        self.upper_band = mean_close + (2 * standard_deviation)
-        self.lower_band = mean_close - (2 * standard_deviation)
+        self.upper_band = self.mean_close + (2 * self.standard_deviation)
+        self.lower_band = self.mean_close - (2 * self.standard_deviation)
         
-    def apply_strategy(self, stock):
-        #if stock_price >= self.upper_band: #change 'stock_price' to the actual stock price
+    def apply_strategy(self):
+        if self.price >= self.upper_band:
             #sell # change to give actual sell signal
-        #elif stock_price <= self.lower_band:
+        elif self.price <= self.lower_band:
             #buy
-        #else:
+        else:
             #hold
-        pass
