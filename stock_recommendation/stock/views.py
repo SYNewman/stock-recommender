@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Recommendations
 from .models import Stock
-from stock_recommendation.app_logic import Trading_System
+from .app_logic import Trading_System
 
 # Create your views here.
 def home_page(request):
