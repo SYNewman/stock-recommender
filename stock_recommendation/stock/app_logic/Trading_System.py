@@ -1,5 +1,5 @@
-import Stock
-import Strategies
+from . import Stock
+from . import Strategies
 from stock.models import Stock
 from stock.models import StockData
 from datetime import date, datetime

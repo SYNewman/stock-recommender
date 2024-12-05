@@ -2,9 +2,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import date, datetime
 import yfinance as yf
 
-import models.Stock
-import models.StockData
-import models.Recommendations
+from stock.models import Stock
+from stock.models import StockData
+from stock.models import Recommendations
 
 
 class Stock:
