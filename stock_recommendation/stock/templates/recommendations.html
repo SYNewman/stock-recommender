@@ -10,7 +10,35 @@
     </head>
     <body>
         
-        <p>This is the page which shows the stocks to buy and the stocks to sell</p>
+        <h2>Very Strong Buy</h2>
+        {% for i in very_strong_buy %}
+            <li> {{ i }} </li>
+        {% endfor %}
+
+        <h2>Strong Buy</h2>
+        {% for i in strong_buy %}
+            <li> {{ i }} </li>
+        {% endfor %}
+
+        <h2>Buy</h2>
+        {% for i in buy %}
+            <li> {{ i }} </li>
+        {% endfor %}
+
+        <h2>Very Strong Sell</h2>
+        {% for i in very_strong_sell %}
+            <li> {{ i }} </li>
+        {% endfor %}
+
+        <h2>Strong Sell</h2>
+        {% for i in strong_sell %}
+            <li> {{ i }} </li>
+        {% endfor %}
+
+        <h2>Sell</h2>
+        {% for i in sell %}
+            <li> {{ i }} </li>
+        {% endfor %}
         
         <script src="" async defer></script>
     </body>
