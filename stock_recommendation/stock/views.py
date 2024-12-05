@@ -13,7 +13,7 @@ def recommendations_page(request):
         trading_system.compile_queue()
         trading_system.run_operations()
     except Exception as exception_type:
-        print(f"The Stocks could not be updated due to Error: {exception_type}")
+        print(f"(views.py 1) The Stocks could not be updated due to Error: {exception_type}")
     
     all_stocks = Stock.objects.all()
     all_recommendations = Recommendations.objects.all()
@@ -33,7 +33,7 @@ def recommendations_page(request):
             recommendation_data = Recommendations.objects.filter(stock_id=i.stock_id)
             recommendation = recommendation_data.overall_recommendation
         except Exception as exception_type:
-            print(f"Stock {i} and/or its recommendation could not be accessed due to Error: {exception_type}")
+            print(f"(views.py 2) Stock {i} and/or its recommendation could not be accessed due to Error: {exception_type}")
             
         if recommendation == "Very Strong Buy": very_strong_buy.append(stock)
         elif recommendation == "Strong Buy": strong_buy.append(stock)
