@@ -1,4 +1,4 @@
-from stock.app_logic import Strategies
+from stock.app_logic.Strategy import Strategies
 from stock import models
 
 class Moving_Average_Strategy(Strategy):
