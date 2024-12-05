@@ -39,7 +39,7 @@ class Stock:
             stock_model.last_updated = current_date_and_time
             stock_model.save()
         except ObjectDoesNotExist:
-            print("There was a problem executing getting the data or saving it to the database.")
+            print("(Stock.py) There was a problem executing getting the data or saving it to the database.")
         
         # Updates data for StockData model
         try:
@@ -49,7 +49,7 @@ class Stock:
             stock_data_model.last_200_close_prices = get_stock_close_prices(self)
             stock_data_model.save()
         except ObjectDoesNotExist:
-            print("There was a problem executing getting the data or saving it to the database.")
+            print("(Stock.py) There was a problem executing getting the data or saving it to the database.")
     
     
     def add_indicator(self, strategy, primary_key, recommendation):
@@ -63,7 +63,7 @@ class Stock:
                 stock_record.bollinger_bands_signal = recommendation
             stock_record.save()
         except Exception as exception_type:
-            print(f"The {strategy} indicator for {self.ticker} could not be added to the database due to Error: {exception_type}")
+            print(f"(Stock.py) The {strategy} indicator for {self.ticker} could not be added to the database due to Error: {exception_type}")
     
     
     def make_recommendation(self, primary_key):
@@ -76,7 +76,7 @@ class Stock:
             rsi_signal = all_signals.rsi_signal
             bollinger_bands_signal = all_signals.bollinger_bands_signal
         except Recommendations.DoesNotExist:
-            print(f"The trading signals for {self.ticker} could not be loaded to due Error: {exception_type}")
+            print(f"(Stock.py) The trading signals for {self.ticker} could not be loaded to due Error: {exception_type}")
             
         try:
             if moving_average_signal == "Buy": score += 1
@@ -96,11 +96,11 @@ class Stock:
             elif score == -2: recommendation = "Strong Sell"
             elif score == -3: recommendation = "Very Strong Sell"
         except Exception as exception_type:
-            print(f"The recommendation for {self.ticker} could not be calculated due to Error: {exception_type}")
+            print(f"(Stock.py) The recommendation for {self.ticker} could not be calculated due to Error: {exception_type}")
         
         try:
             update_db = Recommendations.objects.get(stock_id=primary_key)
             update_db.overall_recommendation = recommendation
             update_db.save()
         except Exception as exception_type:
-            print(f"The final recommendation for {self.ticker} could not be saved to the database due to Error: {exception_type}")
+            print(f"(Stock.py) The final recommendation for {self.ticker} could not be saved to the database due to Error: {exception_type}")

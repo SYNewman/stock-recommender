@@ -30,7 +30,7 @@ class Trading_System:
                         continue
             return self.list_of_stocks
         except Exception as exception_type:
-            print(f"List of Stocks could not be loaded. The problem was: {exception_type}")
+            print(f"(Trading_System.py) List of Stocks could not be loaded. The problem was: {exception_type}")
             raise
 
     def compile_queue(self):
@@ -61,7 +61,7 @@ class Trading_System:
                 
                 self.list_of_operations.append(Stock.make_recommendation(stock_id))
             except Exception as exception_type:
-                print(f"The required actions for {i} could not be run due to Error: {exception_type}")
+                print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {exception_type}")
     
     def run_operations(self):
         try:
@@ -69,4 +69,4 @@ class Trading_System:
                 operations = self.list_of_operations.popleft()
                 operations()
         except Exception as exception_type:
-            print(f"The operations could not be executed due to Error: {exception_type}")
+            print(f"(Trading_System.py) The operations could not be executed due to Error: {exception_type}")
