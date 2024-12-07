@@ -14,7 +14,7 @@ class Trading_System:
     
     def get_stocks(self):
         try:
-            with open("tickers.txt", "r") as stocks:
+            with open("stock/app_logic/tickers.txt", "r") as stocks:
                 for i in stocks:
                     try:
                         stock = i.strip()
@@ -34,7 +34,7 @@ class Trading_System:
             raise
 
     def compile_queue(self):
-        self.list_of_operations.append(get_stocks())
+        self.list_of_operations.append(self.get_stocks())
         for i in self.list_of_stocks:
             try:
                 stock_object = Stock(i)
