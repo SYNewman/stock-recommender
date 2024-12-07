@@ -47,6 +47,7 @@ class Trading_System:
                 price = stock_id_field.current_price
                 
                 self.list_of_operations.append(stock_object.update_data(stock_id))
+                
                 #runs the moving average strategy
                 moving_average_strategy = Moving_Average_Strategy("Moving Averages", close_prices, price)
                 self.list_of_operations.append(moving_average_strategy.apply_strategy())
