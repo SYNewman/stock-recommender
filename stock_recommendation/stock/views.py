@@ -7,6 +7,12 @@ from .app_logic import Trading_System
 def home_page(request):
     return render(request, "home.html")
 
+def sign_up_page(request):
+    return render (request, "sign_up.html")
+
+def log_in_page(request):
+    return render (request, "log_in.html")
+
 def recommendations_page(request):
     try:
         trading_system = Trading_System.Trading_System()
