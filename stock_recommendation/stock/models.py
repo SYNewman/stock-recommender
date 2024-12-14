@@ -12,9 +12,9 @@ class Users(models.Model):
 # Contains basic information about each stock
 class Stock(models.Model):
     stock_id = models.AutoField(primary_key=True)
-    ticker = models.CharField(max_length=5)
-    company_name = models.CharField(max_length=100)
-    sector = models.CharField(max_length=100)
+    ticker = models.CharField(max_length=5, null=True)
+    company_name = models.CharField(max_length=100, null=True)
+    sector = models.CharField(max_length=100, null=True)
     last_updated = models.DateTimeField()
 
 # Contains the main data for each stock
