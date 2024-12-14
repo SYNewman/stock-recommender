@@ -14,7 +14,7 @@ class Trading_System:
     
     def get_stocks(self):
         try:
-            with open("stock/app_logic/tickers.txt", "r") as stocks:
+            with open("stock/app_logic/tickers_short.txt", "r") as stocks:
                 for i in stocks:
                     try:
                         stock = i.strip()
@@ -34,11 +34,10 @@ class Trading_System:
             raise
 
     def compile_queue(self):
-        self.list_of_operations.append(self.get_stocks())
+        self.get_stocks()
         for i in self.list_of_stocks:
             try:
                 stock_object = Stock(i)
-                
                 stock_field = Stock.objects.get(ticker=i)
                 stock_id = stock_field.stock_id
                 
@@ -46,21 +45,21 @@ class Trading_System:
                 close_prices = stock_id_field.last_200_close_prices
                 price = stock_id_field.current_price
                 
-                self.list_of_operations.append(stock_object.update_data(stock_id))
+                self.list_of_operations.append(lambda:stock_object.update_data(stock_id))
                 
                 #runs the moving average strategy
                 moving_average_strategy = Moving_Average_Strategy("Moving Averages", close_prices, price)
-                self.list_of_operations.append(moving_average_strategy.apply_strategy())
+                self.list_of_operations.append(lambda:moving_average_strategy.apply_strategy())
                 
                 #runs the rsi strategy
                 rsi_strategy = RSI_Strategy("RSI", close_prices, price)
-                self.list_of_operations.append(rsi_strategy.apply_strategy())
+                self.list_of_operations.append(lambda:rsi_strategy.apply_strategy())
                 
                 #runs the bollinger bands strategy
                 bollinger_band_strategy = Bollinger_Bands_Strategy("Bollinger Bands", close_prices, price)
-                self.list_of_operations.append(bollinger_band_strategy.apply_strategy())
+                self.list_of_operations.append(lambda:bollinger_band_strategy.apply_strategy())
                 
-                self.list_of_operations.append(Stock.make_recommendation(stock_id))
+                self.list_of_operations.append(lambda:Stock.make_recommendation(stock_id))
             except Exception as exception_type:
                 print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {exception_type}")
     
