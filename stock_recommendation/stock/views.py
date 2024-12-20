@@ -31,15 +31,23 @@ def recommendations_page(request):
     sell = []
     strong_sell = []
     very_strong_sell = []
+    error = []
     
     for i in all_stocks:
         try:
             stock_data = Stock.objects.filter(stock_id=i.stock_id).first()
             stock = stock_data.ticker
-            recommendation_data = Recommendations.objects.filter(stock_id=i.stock_id)
+        except Exception as exception_type:
+            print(f"(views.py 2) The stock {i} could not be loaded due to Error: {exception_type}")
+        try:
+            recommendation_data = Recommendations.objects.filter(stock_id=i.stock_id).first()
+        except Exception as exception_type:
+            print(f"(views.py 3) The recommendation for {i} could not be accessed due to Error: {exception_type}")
+        try:
             recommendation = recommendation_data.overall_recommendation
         except Exception as exception_type:
-            print(f"(views.py 2) Stock {i} and/or its recommendation could not be accessed due to Error: {exception_type}")
+            recommendation = None
+            print(f"(views.py 4) The recommendation for {i} could not be accessed due to Error: {exception_type}")
             
         if recommendation == "Very Strong Buy": very_strong_buy.append(stock)
         elif recommendation == "Strong Buy": strong_buy.append(stock)
@@ -48,6 +56,7 @@ def recommendations_page(request):
         elif recommendation == "Sell": sell.append(stock)
         elif recommendation == "Strong Sell": strong_sell.append(stock)
         elif recommendation == "Very Strong Sell": very_strong_sell.append(stock)
+        elif recommendation == None: error.append(stock)
         
     context = {
         "very_strong_buy": very_strong_buy,
@@ -55,7 +64,8 @@ def recommendations_page(request):
         "buy": buy,
         "sell": sell,
         "strong_sell": strong_sell,
-        "very_strong_sell": very_strong_sell
+        "very_strong_sell": very_strong_sell,
+        "error": error,
     }
     
     return render(request, "recommendations.html", context)
