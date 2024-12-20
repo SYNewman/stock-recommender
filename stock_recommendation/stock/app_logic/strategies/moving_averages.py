@@ -1,10 +1,10 @@
-from stock.app_logic.Strategy import Strategies
+from stock.app_logic import Strategies
 from stock import models
 
-class Moving_Average_Strategy(Strategy):
+class Moving_Average_Strategy():
     
     def __init__(self, strategy, stats, price):
-        super().__init__(strategy, stats)
+        #super().__init__(strategy, stats, price)
         self.short_term_moving_average = 0
         self.long_term_moving_average = 0
         self.stats = stats
@@ -28,10 +28,13 @@ class Moving_Average_Strategy(Strategy):
         
         if self.price > self.short_term_moving_average and self.short_term_moving_average > self.long_term_moving_average:
             Stock.add_indicator("moving averages", stock_id, "Buy")
+            print("Buy")
         elif self.price < self.short_term_moving_average and self.short_term_moving_average < self.long_term_moving_average:
             Stock.add_indicator("moving averages", stock_id, "Sell")
+            print("Sell")
         else:
             Stock.add_indicator("moving averages", stock_id, "Hold")
+            print("Hold")
             
     def apply_strategy(self):
         calculate_short_term_moving_average(self)
