@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Strategy(ABC):
-    def __init__(self, strategy, stats):
+    def __init__(self, strategy, stats, price):
         self.strategy = ""
         self.stats = []
         self.signal = ""
