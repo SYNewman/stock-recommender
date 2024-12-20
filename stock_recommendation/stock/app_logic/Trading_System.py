@@ -4,6 +4,7 @@ from stock.models import Stock
 from stock.models import StockData
 from datetime import date, datetime
 from collections import deque
+from .strategies import moving_averages
 
 class Trading_System:
     
@@ -40,11 +41,13 @@ class Trading_System:
                 stock_object = Stock(i)
                 stock_field = Stock.objects.get(ticker=i)
                 stock_id = stock_field.stock_id
-                
+            except: print("Error 1")
+            try:
                 stock_id_field = StockData.objects.get(stock_id=stock_id)
                 close_prices = stock_id_field.last_200_close_prices
                 price = stock_id_field.current_price
-                
+            except: print("This doesn't work")
+            try:
                 self.list_of_operations.append(lambda:stock_object.update_data(stock_id))
                 
                 #runs the moving average strategy
