@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Recommendations
 from .models import Stock
 from .app_logic import Trading_System
+import traceback
 
 # Create your views here.
 def home_page(request):
@@ -40,7 +41,10 @@ def recommendations_page(request):
         except Exception as exception_type:
             print(f"(views.py 2) The stock {i} could not be loaded due to Error: {exception_type}")
         try:
-            recommendation_data = Recommendations.objects.filter(stock_id=i.stock_id).first()
+            #recommendation_data = Stock.objects.filter(stock_id=i.stock_id).first()
+            #recommendation_data = Recommendations.objects.filter(stock_id=i.stock_id).first()
+            #recommendation_data = Stock.objects.get(stock_id=i.stock_id)
+            recommendation_data = Recommendations.objects.get(stock_id=i.stock_id)
         except Exception as exception_type:
             print(f"(views.py 3) The recommendation for {i} could not be accessed due to Error: {exception_type}")
         try:
@@ -48,6 +52,7 @@ def recommendations_page(request):
         except Exception as exception_type:
             recommendation = None
             print(f"(views.py 4) The recommendation for {i} could not be accessed due to Error: {exception_type}")
+            traceback.print_exc()
             
         if recommendation == "Very Strong Buy": very_strong_buy.append(stock)
         elif recommendation == "Strong Buy": strong_buy.append(stock)
