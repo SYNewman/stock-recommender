@@ -4,7 +4,9 @@ from stock.models import Stock
 from stock.models import StockData
 from datetime import date, datetime
 from collections import deque
-from .strategies import moving_averages
+from .strategies.moving_averages import Moving_Average_Strategy
+from .strategies.rsi import RSI_Strategy
+from .strategies.bollinger_bands import Bollinger_Bands_Strategy
 
 class Trading_System:
     
@@ -43,10 +45,11 @@ class Trading_System:
                 stock_id = stock_field.stock_id
             except: print("Error 1")
             try:
-                stock_id_field = StockData.objects.get(stock_id=stock_id)
+                stock_id_field = Stock.objects.get(stock_id=stock_id)
                 close_prices = stock_id_field.last_200_close_prices
                 price = stock_id_field.current_price
-            except: print("This doesn't work")
+            except exception as e:
+                print(f"This doesn't work: {e}")
             try:
                 self.list_of_operations.append(lambda:stock_object.update_data(stock_id))
                 
