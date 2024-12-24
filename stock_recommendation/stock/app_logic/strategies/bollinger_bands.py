@@ -1,7 +1,7 @@
-from Strategies import Strategy
-import models.Stock
+from stock.app_logic import Strategies
+from stock import models
 
-class Bollinger_Bands_Strategy(Strategy):
+class Bollinger_Bands_Strategy():
     
     def __init__(self, strategy, stats, price):
         super().__init__(strategy, stats)
