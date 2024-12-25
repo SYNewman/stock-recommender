@@ -25,9 +25,29 @@ class Trading_System:
                         does_stock_exist_in_db = Stock.objects.filter(ticker=stock).exists()
                         if not does_stock_exist_in_db:
                             current_date_and_time = datetime.now()
-                            new_stock = Stock(ticker=stock, company_name=None,
-                                              sector=None, last_updated=current_date_and_time)
+                            today = date.today()
+                            new_stock = Stock.objects.create(
+                                ticker=stock,
+                                company_name=None,
+                                sector=None,
+                                last_updated=current_date_and_time)
                             new_stock.save()
+                            stock_id = Stock.objects.get(stock_id=i.stock_id)
+                            new_stock_data = StockData.objects.create(
+                                stock_id=stock_id,
+                                current_date=today,
+                                current_price=None,
+                                last_200_close_prices=None,
+                            )
+                            new_stock_data.save()
+                            new_recommendation = Recommendations.objects.create(
+                                stock_id=stock_id,
+                                moving_average_signal=None,
+                                rsi_signal=None,
+                                bollinger_bands_signal=None,
+                                overall_recommendation=None,
+                            )
+                            new_recommendation.save()
                     except Exception as exception_type:
                         print(f"There was a problem loading {stock}. The problem was: {exception_type}")
                         continue
