@@ -2,6 +2,7 @@ from . import Stock
 from . import Strategies
 from stock.models import Stock
 from stock.models import StockData
+from stock.models import Recommendations
 from datetime import date, datetime
 from collections import deque
 from .strategies.moving_averages import Moving_Average_Strategy
@@ -23,31 +24,36 @@ class Trading_System:
                         stock = i.strip()
                         self.list_of_stocks.append(stock)
                         does_stock_exist_in_db = Stock.objects.filter(ticker=stock).exists()
-                        if not does_stock_exist_in_db:
+                        stock_db = Stock.objects.filter(ticker=stock).first()
+                        stock_id = stock_db.stock_id
+                        does_StockData_exist = StockData.objects.filter(stock_id=stock_id).exists()
+                        does_Recommendations_exist = Recommendations.objects.filter(stock_id=stock_id).exists()
+                        if does_stock_exist_in_db==False or does_StockData_exist==False or does_Recommendations_exist==False:
                             current_date_and_time = datetime.now()
                             today = date.today()
-                            new_stock = Stock.objects.create(
+                            does_this_stock_exist = Stock.objects.filter(ticker=stock).exists()
+                            if does_this_stock_exist == False:
+                                Stock.objects.filter(ticker=stock).delete()
+                            Stock.objects.create(
                                 ticker=stock,
                                 company_name=None,
                                 sector=None,
                                 last_updated=current_date_and_time)
-                            new_stock.save()
-                            stock_id = Stock.objects.get(stock_id=i.stock_id)
-                            new_stock_data = StockData.objects.create(
+                            stock_db = Stock.objects.filter(ticker=stock).first()
+                            stock_id = stock_db.stock_id
+                            StockData.objects.create(
                                 stock_id=stock_id,
                                 current_date=today,
                                 current_price=None,
                                 last_200_close_prices=None,
                             )
-                            new_stock_data.save()
-                            new_recommendation = Recommendations.objects.create(
+                            Recommendations.objects.create(
                                 stock_id=stock_id,
                                 moving_average_signal=None,
                                 rsi_signal=None,
                                 bollinger_bands_signal=None,
                                 overall_recommendation=None,
                             )
-                            new_recommendation.save()
                     except Exception as exception_type:
                         print(f"There was a problem loading {stock}. The problem was: {exception_type}")
                         continue
