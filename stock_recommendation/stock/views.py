@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .models import Recommendations
 from .models import Stock
+from .models import StockData
+from .models import Recommendations
 from .app_logic import Trading_System
 import traceback
 
