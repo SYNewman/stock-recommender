@@ -1,4 +1,5 @@
 import yfinance as yf
+import datetime
 
 class Black_Scholes:
     
@@ -28,7 +29,11 @@ class Black_Scholes:
         self.s = stock.fast_info['lastPrice']
     
     def calculate_option_length(self):
-        pass
+        today = datetime.today()
+        end_date = datetime(self.end_date)
+        length = today - end_date
+        difference = length.days
+        self.t = difference / 365
     
     def calculate_risk_free_interest_rate(self):
         pass
