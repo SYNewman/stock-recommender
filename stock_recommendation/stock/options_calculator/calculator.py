@@ -51,7 +51,7 @@ class Black_Scholes:
         self.denominator = self.sig * math.sqrt(self.t)
     
     def calculate_d1(self):
-        pass
+        self.d1 = (math.log(self.s/self.x) + self.t*(self.r+((self.sig**2)/2))) / self.denominator
     
     def calculate_d2(self):
         self.d2 = self.d1 - self.denominator
