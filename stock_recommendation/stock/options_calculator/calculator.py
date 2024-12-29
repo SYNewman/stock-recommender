@@ -45,13 +45,6 @@ class Black_Scholes:
     
     def calculate_cumulative_distribution(self):
         pass
-    
-    def get_data(self):
-        calculate_stock_price(self)
-        calculate_option_length(self)
-        calculate_risk_free_interest_rate(self)
-        calculate_volatility(self)
-        calculate_cumulative_distribution(self)
         
     def calculate_denominator(self):
         pass
@@ -69,14 +62,18 @@ class Black_Scholes:
         pass
     
     def calculate_price(self):
+        # Calculate the necessary info
+        calculate_stock_price(self)
+        calculate_option_length(self)
+        calculate_risk_free_interest_rate(self)
+        calculate_volatility(self)
+        calculate_cumulative_distribution(self)
+        # Calculate the option price
         get_data(self)
         calculate_denominator(self)
         calculate_d1(self)
         calculate_d2(self)
-        if self.type == "call":
-            calculate_call_price(self)
-        elif self.type == "put":
-            calculate_put_price(self)
-        else:
-            self.price = "The options price could not be calculated"
+        # Set option price
+        if self.type == "call": calculate_call_price(self)
+        elif self.type == "put": calculate_put_price(self)
         return self.price
