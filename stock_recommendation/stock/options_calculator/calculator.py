@@ -1,3 +1,5 @@
+import yfinance as yf
+
 class Black_Scholes:
     
     def __init__(self, option_type, stock, strike_price, end_date):
@@ -22,7 +24,8 @@ class Black_Scholes:
         self.price = 0
         
     def calculate_stock_price(self):
-        pass
+        stock = yf.ticker(self.stock)
+        self.s = stock.fast_info['lastPrice']
     
     def calculate_option_length(self):
         pass
