@@ -25,7 +25,7 @@ class Black_Scholes:
         self.price = 0
         
     def calculate_stock_price(self):
-        stock = yf.ticker(self.stock)
+        stock = yf.Ticker(self.stock)
         self.s = stock.fast_info['lastPrice']
     
     def calculate_option_length(self):
