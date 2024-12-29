@@ -1,5 +1,6 @@
 import yfinance as yf
 import datetime
+import math
 
 class Black_Scholes:
     
@@ -43,8 +44,8 @@ class Black_Scholes:
     def calculate_volatility(self):
         pass
     
-    def calculate_cumulative_distribution(self):
-        pass
+    def calculate_cumulative_distribution(self, z):
+        return (math.erf(z/math.sqrt(2))+1)/2
         
     def calculate_denominator(self):
         pass
