@@ -68,7 +68,6 @@ class Black_Scholes:
         calculate_option_length(self)
         calculate_risk_free_interest_rate(self)
         calculate_volatility(self)
-        calculate_cumulative_distribution(self)
         # Calculate the option price
         get_data(self)
         calculate_denominator(self)
