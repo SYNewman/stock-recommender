@@ -36,7 +36,9 @@ class Black_Scholes:
         self.t = difference / 365
     
     def calculate_risk_free_interest_rate(self):
-        pass
+        rate_ticker = yf.Ticker("^TNX")
+        interest_rate = rate_ticker.fast_info['lastPrice']
+        self.r = interest_rate / 100
     
     def calculate_volatility(self):
         pass
