@@ -62,7 +62,9 @@ class Black_Scholes:
         self.call = self.s*d1 - self.x*(math.e**(-1*self.r*self.t))*d2
     
     def calculate_put_price(self):
-        pass
+        d1 = calculate_cumulative_distribution(self.d1*-1)
+        d2 = calculate_cumulative_distribution(self.d2*-1)
+        self.put = self.x*(math.e**(-1*self.r*self.t))*d2 - self.s*d1
     
     def calculate_price(self):
         # Calculate the necessary info
