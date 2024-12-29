@@ -48,7 +48,7 @@ class Black_Scholes:
         return (math.erf(z/math.sqrt(2))+1)/2
         
     def calculate_denominator(self):
-        pass
+        self.denominator = self.sig * math.sqrt(self.t)
     
     def calculate_d1(self):
         pass
