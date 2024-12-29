@@ -4,8 +4,9 @@ import math
 
 class Black_Scholes:
     
-    def __init__(self, option_type, stock, strike_price, end_date):
-        self.type = option_type
+    def __init__(self, stock, strike_price, end_date):
+        self.call = 0
+        self.put = 0
         
         self.stock = stock
         self.s = None
@@ -23,7 +24,6 @@ class Black_Scholes:
         self.denominator = 0
         self.d1 = 0
         self.d2 = 0
-        self.price = 0
         
     def calculate_stock_price(self):
         stock = yf.Ticker(self.stock)
@@ -73,7 +73,7 @@ class Black_Scholes:
         calculate_denominator(self)
         calculate_d1(self)
         calculate_d2(self)
-        # Set option price
-        if self.type == "call": calculate_call_price(self)
-        elif self.type == "put": calculate_put_price(self)
-        return self.price
+        # Calculate final call & put price
+        calculate_call_price(self)
+        calculate_put_price(self)
+        return self.call, self.put
