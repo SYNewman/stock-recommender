@@ -4,6 +4,8 @@ from .models import StockData
 from .models import Recommendations
 from .app_logic import Trading_System
 import traceback
+from datetime import datetime
+from options_calculator import calculator
 
 # Create your views here.
 def home_page(request):
@@ -75,3 +77,26 @@ def recommendations_page(request):
     }
     
     return render(request, "recommendations.html", context)
+
+def options_calculator_page(request):
+    context = {
+        'call': 0,
+        'put': 0,
+    }
+    
+    if request.method == "POST":
+        stock = str(request.POST.get("stock"))
+        strike_price = float(request.POST.get("strike_price"))
+        end_date = datetime.strptime(request.POST.get("end_date"), "%Y-%m-%d").date()
+        
+        option = Black_Scholes(stock, strike_price, end_date)
+        option.calculate_price()
+        
+        context = {
+            'call': option.call,
+            'put': option.put,
+        }
+        
+        return render(request, "options-calculator.html", context)
+    
+    return render(request, "options-calculator.html", context)
