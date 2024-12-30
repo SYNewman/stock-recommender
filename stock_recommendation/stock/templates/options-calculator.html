@@ -13,12 +13,14 @@
         <h1>Options Pricing Calculator</h1>
 
         <form method="post">
+            {% csrf_token %}
             <label>Stock:</label>
             <input name="stock" type="text" required>
             <label>Strike Price:</label>
             <input name="strike_price" type="number" step="0.01" required>
             <label>End Date:</label>
             <input name="end_date" type="date" required>
+            <button type="submit">Calculate Option Price</button>
         </form>
 
         <h3>Option Price</h3>
