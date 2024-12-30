@@ -77,7 +77,8 @@ class Black_Scholes:
                 variance_numerator += (i-mean)**2
             variance = variance_numerator / (len(daily_returns)-1)
             annual_variance = variance*252
-            self.sig = math.sqrt(annual_variance)
+            self.sig = math.sqrt(float(annual_variance.iloc[0]))
+            # The syntax above is to account for future type errors
         except:
             self.error = 1
     
