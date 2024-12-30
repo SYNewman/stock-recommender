@@ -7,6 +7,7 @@ class Black_Scholes:
     def __init__(self, stock, strike_price, end_date):
         self.call = 0
         self.put = 0
+        self.error = 0
         
         self.stock = stock
         self.s = None
@@ -26,79 +27,108 @@ class Black_Scholes:
         self.d2 = 0
         
     def calculate_stock_price(self):
-        stock = yf.Ticker(self.stock)
-        self.s = stock.fast_info['lastPrice']
+        try:
+            stock = yf.Ticker(self.stock)
+            self.s = stock.fast_info['lastPrice']
+        except:
+            self.error = 1
     
     def calculate_option_length(self):
-        today = datetime.today()
-        end_date = datetime(self.end_date)
-        length = today - end_date
-        difference = length.days
-        self.t = difference / 365
+        try:
+            today = datetime.today()
+            end_date = datetime(self.end_date)
+            length = today - end_date
+            difference = length.days
+            self.t = difference / 365
+        except:
+            self.error = 1
     
     def calculate_risk_free_interest_rate(self):
-        rate_ticker = yf.Ticker("^TNX")
-        interest_rate = rate_ticker.fast_info['lastPrice']
-        self.r = interest_rate / 100
+        try:
+            rate_ticker = yf.Ticker("^TNX")
+            interest_rate = rate_ticker.fast_info['lastPrice']
+            self.r = interest_rate / 100
+        except:
+            self.error = 1
     
     def calculate_volatility(self):
-        # Gets the data
-        today = datetime.today()
-        start_date = today - timedelta(days=365)
-        close_prices = yf.download(self.stock, start_date.strftime('%Y-%m-%d'), today.strftime('%Y-%m-%d'))['Close']
+        try: # Gets the data
+            today = datetime.today()
+            start_date = today - timedelta(days=365)
+            close_prices = yf.download(self.stock, start_date.strftime('%Y-%m-%d'), today.strftime('%Y-%m-%d'))['Close']
+        except:
+            self.error = 1
         
-        # Calculates daily returns
-        daily_returns = []
-        daily_return = 0
-        total = 0
-        for i in range(1, len(close_prices)):
-            daily_return = (close_prices.iloc[i] - close_prices.iloc[i-1]) / close_prices.iloc[i-1]
-            total += daily_return
-            daily_returns.append(daily_return)
+        try: # Calculates daily returns
+            daily_returns = []
+            daily_return = 0
+            total = 0
+            for i in range(1, len(close_prices)):
+                daily_return = (close_prices.iloc[i] - close_prices.iloc[i-1]) / close_prices.iloc[i-1]
+                total += daily_return
+                daily_returns.append(daily_return)
+        except:
+            self.error = 1
         
-        # Calculates variance & sigma
-        mean = total/len(daily_returns)
-        variance_numerator = 0
-        for i in daily_returns:
-            variance_numerator += (i-mean)**2
-        variance = variance_numerator / (len(daily_returns)-1)
-        annual_variance = variance*252
-        self.sig = math.sqrt(annual_variance)
+        try: # Calculates variance & sigma
+            mean = total/len(daily_returns)
+            variance_numerator = 0
+            for i in daily_returns:
+                variance_numerator += (i-mean)**2
+            variance = variance_numerator / (len(daily_returns)-1)
+            annual_variance = variance*252
+            self.sig = math.sqrt(annual_variance)
+        except:
+            self.error = 1
     
     def calculate_cumulative_distribution(self, z):
-        return (math.erf(z/math.sqrt(2))+1)/2
+        try:
+            return (math.erf(z/math.sqrt(2))+1)/2
+        except:
+            self.error = 1
         
-    def calculate_denominator(self):
-        self.denominator = self.sig * math.sqrt(self.t)
-    
-    def calculate_d1(self):
-        self.d1 = (math.log(self.s/self.x) + self.t*(self.r+((self.sig**2)/2))) / self.denominator
-    
-    def calculate_d2(self):
-        self.d2 = self.d1 - self.denominator
+    def calculate_d1_and_d2(self):
+        try:
+            self.denominator = self.sig * math.sqrt(self.t)
+            self.d1 = (math.log(self.s/self.x) + self.t*(self.r+((self.sig**2)/2))) / self.denominator
+            self.d2 = self.d1 - self.denominator
+        except:
+            self.error = 1
         
     def calculate_call_price(self):
-        d1 = self.calculate_cumulative_distribution(self.d1)
-        d2 = self.calculate_cumulative_distribution(self.d2)
-        self.call = self.s*d1 - self.x*(math.e**(-1*self.r*self.t))*d2
+        try:
+            d1 = self.calculate_cumulative_distribution(self.d1)
+            d2 = self.calculate_cumulative_distribution(self.d2)
+            self.call = self.s*d1 - self.x*(math.e**(-1*self.r*self.t))*d2
+        except:
+            self.error = 1
     
     def calculate_put_price(self):
-        d1 = self.calculate_cumulative_distribution(self.d1*-1)
-        d2 = self.calculate_cumulative_distribution(self.d2*-1)
-        self.put = self.x*(math.e**(-1*self.r*self.t))*d2 - self.s*d1
+        try:
+            d1 = self.calculate_cumulative_distribution(self.d1*-1)
+            d2 = self.calculate_cumulative_distribution(self.d2*-1)
+            self.put = self.x*(math.e**(-1*self.r*self.t))*d2 - self.s*d1
+        except:
+            self.error = 1
     
     def calculate_price(self):
-        # Calculate the necessary info
-        self.calculate_stock_price()
-        self.calculate_option_length()
-        self.calculate_risk_free_interest_rate()
-        self.calculate_volatility()
-        # Calculate the option price
-        self.get_data()
-        self.calculate_denominator()
-        self.calculate_d1()
-        self.calculate_d2()
-        # Calculate final call & put price
-        self.calculate_call_price()
-        self.calculate_put_price()
+        try: # Calculate the necessary info
+            self.calculate_stock_price()
+            self.calculate_option_length()
+            self.calculate_risk_free_interest_rate()
+            self.calculate_volatility()
+        except:
+            self.error = 1
+        
+        try: # Calculate the call & put price
+            self.calculate_d1_and_d2()
+            self.calculate_call_price()
+            self.calculate_put_price()
+        except:
+            self.error = 1
+        
+        if self.error == 1: # Accounts for errors
+            self.call = "There was a problem calculating the call price."
+            self.put = "There was a problem calculating the put price."
+        
         return self.call, self.put
