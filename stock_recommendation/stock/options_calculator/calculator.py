@@ -30,7 +30,8 @@ class Black_Scholes:
         try:
             stock = yf.Ticker(self.stock)
             self.s = stock.fast_info['lastPrice']
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 1: {e}")
             self.error = 1
     
     def calculate_option_length(self):
@@ -40,7 +41,8 @@ class Black_Scholes:
             length = today - end_date
             difference = length.days
             self.t = difference / 365
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 2: {e}")
             self.error = 1
     
     def calculate_risk_free_interest_rate(self):
@@ -48,7 +50,8 @@ class Black_Scholes:
             rate_ticker = yf.Ticker("^TNX")
             interest_rate = rate_ticker.fast_info['lastPrice']
             self.r = interest_rate / 100
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 3: {e}")
             self.error = 1
     
     def calculate_volatility(self):
@@ -56,7 +59,8 @@ class Black_Scholes:
             today = datetime.today()
             start_date = today - timedelta(days=365)
             close_prices = yf.download(self.stock, start_date.strftime('%Y-%m-%d'), today.strftime('%Y-%m-%d'))['Close']
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 4: {e}")
             self.error = 1
         
         try: # Calculates daily returns
@@ -67,7 +71,8 @@ class Black_Scholes:
                 daily_return = (close_prices.iloc[i] - close_prices.iloc[i-1]) / close_prices.iloc[i-1]
                 total += daily_return
                 daily_returns.append(daily_return)
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 5: {e}")
             self.error = 1
         
         try: # Calculates variance & sigma
@@ -79,13 +84,15 @@ class Black_Scholes:
             annual_variance = variance*252
             self.sig = math.sqrt(float(annual_variance.iloc[0]))
             # The syntax above is to account for future type errors
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 6: {e}")
             self.error = 1
     
     def calculate_cumulative_distribution(self, z):
         try:
             return (math.erf(z/math.sqrt(2))+1)/2
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 7: {e}")
             self.error = 1
         
     def calculate_d1_and_d2(self):
@@ -93,7 +100,8 @@ class Black_Scholes:
             self.denominator = self.sig * math.sqrt(self.t)
             self.d1 = (math.log(self.s/self.x) + self.t*(self.r+((self.sig**2)/2))) / self.denominator
             self.d2 = self.d1 - self.denominator
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 8: {e}")
             self.error = 1
         
     def calculate_call_price(self):
@@ -101,7 +109,8 @@ class Black_Scholes:
             d1 = self.calculate_cumulative_distribution(self.d1)
             d2 = self.calculate_cumulative_distribution(self.d2)
             self.call = self.s*d1 - self.x*(math.e**(-1*self.r*self.t))*d2
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 9: {e}")
             self.error = 1
     
     def calculate_put_price(self):
@@ -109,7 +118,8 @@ class Black_Scholes:
             d1 = self.calculate_cumulative_distribution(self.d1*-1)
             d2 = self.calculate_cumulative_distribution(self.d2*-1)
             self.put = self.x*(math.e**(-1*self.r*self.t))*d2 - self.s*d1
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 10: {e}")
             self.error = 1
     
     def calculate_price(self):
@@ -118,14 +128,16 @@ class Black_Scholes:
             self.calculate_option_length()
             self.calculate_risk_free_interest_rate()
             self.calculate_volatility()
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 11: {e}")
             self.error = 1
         
         try: # Calculate the call & put price
             self.calculate_d1_and_d2()
             self.calculate_call_price()
             self.calculate_put_price()
-        except:
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 12: {e}")
             self.error = 1
         
         if self.error == 1: # Accounts for errors
