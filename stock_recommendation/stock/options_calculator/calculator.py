@@ -1,5 +1,5 @@
 import yfinance as yf
-import datetime
+from datetime import datetime, timedelta
 import math
 
 class Black_Scholes:
