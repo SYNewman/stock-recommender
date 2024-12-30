@@ -42,7 +42,28 @@ class Black_Scholes:
         self.r = interest_rate / 100
     
     def calculate_volatility(self):
-        pass
+        # Gets the data
+        today = datetime.today()
+        start_date = today - timedelta(days=365)
+        close_prices = yf.download(self.stock, start_date.strftime('%Y-%m-%d'), today.strftime('%Y-%m-%d'))['Close']
+        
+        # Calculates daily returns
+        daily_returns = []
+        daily_return = 0
+        total = 0
+        for i in range(1, len(close_prices)):
+            daily_return = (close_prices.iloc[i] - close_prices.iloc[i-1]) / close_prices.iloc[i-1]
+            total += daily_return
+            daily_returns.append(daily_return)
+        
+        # Calculates variance & sigma
+        mean = total/len(daily_returns)
+        variance_numerator = 0
+        for i in daily_returns:
+            variance_numerator += (i-mean)**2
+        variance = variance_numerator / (len(daily_returns)-1)
+        annual_variance = variance*252
+        self.sig = math.sqrt(annual_variance)
     
     def calculate_cumulative_distribution(self, z):
         return (math.erf(z/math.sqrt(2))+1)/2
