@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Options Pricing Calculator</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        
+        <h1>Options Pricing Calculator</h1>
+
+        <form method="post">
+            <label>Stock:</label>
+            <input name="stock" type="text" required>
+            <label>Strike Price:</label>
+            <input name="strike_price" type="number" step="0.01" required>
+            <label>End Date:</label>
+            <input name="end_date" type="date" required>
+        </form>
+
+        <h3>Option Price</h3>
+        <h2>Call: {{call}}</h2>
+        <h2>Put: {{put}}</h2>
+
+        <script src="" async defer></script>
+    </body>
+</html>
