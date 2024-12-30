@@ -78,27 +78,27 @@ class Black_Scholes:
         self.d2 = self.d1 - self.denominator
         
     def calculate_call_price(self):
-        d1 = calculate_cumulative_distribution(self.d1)
-        d2 = calculate_cumulative_distribution(self.d2)
+        d1 = self.calculate_cumulative_distribution(self.d1)
+        d2 = self.calculate_cumulative_distribution(self.d2)
         self.call = self.s*d1 - self.x*(math.e**(-1*self.r*self.t))*d2
     
     def calculate_put_price(self):
-        d1 = calculate_cumulative_distribution(self.d1*-1)
-        d2 = calculate_cumulative_distribution(self.d2*-1)
+        d1 = self.calculate_cumulative_distribution(self.d1*-1)
+        d2 = self.calculate_cumulative_distribution(self.d2*-1)
         self.put = self.x*(math.e**(-1*self.r*self.t))*d2 - self.s*d1
     
     def calculate_price(self):
         # Calculate the necessary info
-        calculate_stock_price(self)
-        calculate_option_length(self)
-        calculate_risk_free_interest_rate(self)
-        calculate_volatility(self)
+        self.calculate_stock_price()
+        self.calculate_option_length()
+        self.calculate_risk_free_interest_rate()
+        self.calculate_volatility()
         # Calculate the option price
-        get_data(self)
-        calculate_denominator(self)
-        calculate_d1(self)
-        calculate_d2(self)
+        self.get_data()
+        self.calculate_denominator()
+        self.calculate_d1()
+        self.calculate_d2()
         # Calculate final call & put price
-        calculate_call_price(self)
-        calculate_put_price(self)
+        self.calculate_call_price()
+        self.calculate_put_price()
         return self.call, self.put
