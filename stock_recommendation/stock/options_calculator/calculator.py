@@ -138,6 +138,13 @@ class Black_Scholes:
         except Exception as e:
             print(f"Options Pricing Calculator Error 12: {e}")
             self.error = 1
+            
+        try: # Round option prices to 2dp
+            self.call = round(self.call, 2)
+            self.put = round(self.put, 2)
+        except Exception as e:
+            print(f"Options Pricing Calculator Error 13: {e}")
+            self.error = 1
         
         if self.error == 1: # Accounts for errors
             self.call = "There was a problem calculating the call price."
