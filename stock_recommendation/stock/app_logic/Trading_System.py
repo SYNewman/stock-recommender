@@ -32,7 +32,7 @@ class Trading_System:
                             current_date_and_time = datetime.now()
                             today = date.today()
                             does_this_stock_exist = Stock.objects.filter(ticker=stock).exists()
-                            if does_this_stock_exist == False:
+                            if does_this_stock_exist == True:
                                 Stock.objects.filter(ticker=stock).delete()
                             Stock.objects.create(
                                 ticker=stock,
