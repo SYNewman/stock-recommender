@@ -37,7 +37,6 @@ class Black_Scholes:
     def calculate_option_length(self):
         try:
             today = date.today()
-            #end_date = datetime(self.end_date)
             length = today - self.end_date
             difference = length.days
             self.t = difference / 365
