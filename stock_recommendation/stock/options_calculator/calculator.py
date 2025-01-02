@@ -1,5 +1,5 @@
 import yfinance as yf
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import math
 
 class Black_Scholes:
@@ -36,9 +36,9 @@ class Black_Scholes:
     
     def calculate_option_length(self):
         try:
-            today = datetime.today()
-            end_date = datetime(self.end_date)
-            length = today - end_date
+            today = date.today()
+            #end_date = datetime(self.end_date)
+            length = today - self.end_date
             difference = length.days
             self.t = difference / 365
         except Exception as e:
