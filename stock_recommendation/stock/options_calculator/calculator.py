@@ -5,6 +5,16 @@ import math
 class Black_Scholes:
     
     def __init__(self, stock, strike_price, end_date):
+        '''
+        This calculator uses the Black-Scholes model for calculating options prices
+        Search online to view the formula for this model, or to understand how it works
+        
+        Variables named with only a letter (e.g. self.t or self.s) refer to the
+        one-letter value with which that variable is presented in the mathematical
+        representation of the formula (for example, self.t refers to the time-to-expiration,
+        which is represented as 'T' or 't' in mathematical representations.)
+        '''
+        
         self.call = 0
         self.put = 0
         self.error = 0
