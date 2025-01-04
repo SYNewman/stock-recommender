@@ -6,6 +6,7 @@ from .app_logic import Trading_System
 import traceback
 from datetime import datetime
 from stock.calculators.options_black_scholes import Black_Scholes
+from stock.calculators.kelly_criterion import Kelly_Criterion
 
 # Create your views here.
 def home_page(request):
@@ -102,3 +103,24 @@ def options_calculator_page(request):
         return render(request, "options-calculator.html", context)
     
     return render(request, "options-calculator.html", context)
+
+def kelly_criterion_page(request):
+    if request.method == "POST":
+        trade_amount = int(request.POST.get("trade_amount"))
+        trade_wins = int(request.POST.get("trade_wins"))
+        average_win = float(request.POST.get("average_win"))
+        average_loss = float(request.POST.get("average_loss"))
+        
+        calculation = Kelly_Criterion(trade_amount, trade_wins, average_win, average_loss)
+        calculation.calculate_win_percent()
+        calculation.calculate_win_loss_ratio()
+        calculation.calculate_kelly_percent()
+        
+        context = {
+            'show_result': True,
+            'kelly_percent': calculation.k,
+        }
+        
+        return render(request, "kelly-criterion.html", context)
+    
+    return render(request, "kelly-criterion.html", {'show_result':False})
