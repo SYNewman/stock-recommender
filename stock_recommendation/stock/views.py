@@ -5,7 +5,7 @@ from .models import Recommendations
 from .app_logic import Trading_System
 import traceback
 from datetime import datetime
-from stock.options_calculator.calculator import Black_Scholes
+from stock.calculators.calculator import Black_Scholes
 
 # Create your views here.
 def home_page(request):
