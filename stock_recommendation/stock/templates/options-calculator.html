@@ -23,9 +23,11 @@
             <button type="submit">Calculate Option Price</button>
         </form>
 
+        {%if show_result == True%}
         <h3>Option Price</h3>
-        <h2>Call: {{call}}</h2>
-        <h2>Put: {{put}}</h2>
+            <h2>Call: {{call}}</h2>
+            <h2>Put: {{put}}</h2>
+        {% endif %}
 
         <p> This calculator uses the Black Scholes model.
             Click <a href="https://www.investopedia.com/terms/b/blackscholes.asp">here</a>

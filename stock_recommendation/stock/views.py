@@ -80,6 +80,7 @@ def recommendations_page(request):
 
 def options_calculator_page(request):
     context = {
+        'show_result': False,
         'call': 0,
         'put': 0,
     }
@@ -93,6 +94,7 @@ def options_calculator_page(request):
         option.calculate_price()
         
         context = {
+            'show_result': True,
             'call': option.call,
             'put': option.put,
         }
