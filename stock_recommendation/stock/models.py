@@ -11,23 +11,37 @@ class Users(models.Model):
     
 # Contains basic information about each stock
 class Stock(models.Model):
-    stock_id = models.AutoField(primary_key=True)
-    ticker = models.CharField(max_length=5, null=True)
+    ticker = models.CharField(max_length=5, primary_key=True)
     company_name = models.CharField(max_length=100, null=True)
     sector = models.CharField(max_length=100, null=True)
     last_updated = models.DateTimeField()
 
 # Contains the main data for each stock
 class StockData(models.Model):
-    stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='StockData')
+    ticker = models.ForeignKey(Stock,
+                               on_delete=models.CASCADE,
+                               related_name='stockData',
+                               db_column='ticker')
     current_date = models.DateField(null=True)
     current_price = models.FloatField(null=True)
     last_200_close_prices = models.JSONField(null=True)
 
+# Contains each strategies' signal
+class Strategies(models.Model):
+    ticker = models.ForeignKey(Stock,
+                               on_delete=models.CASCADE,
+                               related_name='strategies',
+                               db_column='ticker')
+    moving_averages = models.CharField(max_length=5, null=True)
+    rsi = models.CharField(max_length=5, null=True)
+    bollinger_bands = models.CharField(max_length=5, null=True)
+
 # Contains recommendation info
 class Recommendations(models.Model):
-    stock_id = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name='Recommendations')
-    moving_averages_signal = models.CharField(max_length=5, null=True)
-    rsi_signal = models.CharField(max_length=5, null=True)
-    bollinger_bands_signal = models.CharField(max_length=5, null=True)
-    overall_recommendation = models.CharField(max_length=50, null=True)
+    ticker = models.ForeignKey(Stock,
+                               on_delete=models.CASCADE,
+                               related_name='recommendations',
+                               db_column='ticker')
+    total_buy_signals = models.IntegerField()
+    total_hold_signals = models.IntegerField()
+    total_sell_signals = models.IntegerField()
