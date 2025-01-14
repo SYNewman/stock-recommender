@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 #Contains information about each user
 class Users(models.Model):
@@ -14,7 +15,7 @@ class Stock(models.Model):
     ticker = models.CharField(max_length=5, primary_key=True)
     company_name = models.CharField(max_length=100, null=True)
     sector = models.CharField(max_length=100, null=True)
-    last_updated = models.DateTimeField()
+    last_updated = models.DateTimeField(default=now)
 
 # Contains the main data for each stock
 class StockData(models.Model):
@@ -42,6 +43,6 @@ class Recommendations(models.Model):
                                on_delete=models.CASCADE,
                                related_name='recommendations',
                                db_column='ticker')
-    total_buy_signals = models.IntegerField()
-    total_hold_signals = models.IntegerField()
-    total_sell_signals = models.IntegerField()
+    total_buy_signals = models.IntegerField(default=0)
+    total_hold_signals = models.IntegerField(default=0)
+    total_sell_signals = models.IntegerField(default=0)
