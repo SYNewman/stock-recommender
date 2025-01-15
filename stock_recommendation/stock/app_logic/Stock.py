@@ -30,8 +30,7 @@ class Stock:
         stock_info = stock.info
         current_date_and_time = datetime.now()
         
-        # Updates data for Stock model
-        try:
+        try:   # Updates data for Stock model
             stock_model = Stock.objects.get(stock_id=primary_key)
             stock_model.ticker = self.ticker
             stock_model.company_name = stock_info['shortName']
@@ -39,17 +38,16 @@ class Stock:
             stock_model.last_updated = current_date_and_time
             stock_model.save()
         except ObjectDoesNotExist:
-            print("(Stock.py) There was a problem executing getting the data or saving it to the database.")
+            print("(Stock.py 1) There was a problem executing getting the data or saving it to the database.")
         
-        # Updates data for StockData model
-        try:
+        try:   # Updates data for StockData model
             stock_data_model = StockData.objects.get(stock_id=primary_key)
             stock_data_model.current_date = date.today()
             stock_data_model.current_price = stock_info['currentPrice']
             stock_data_model.last_200_close_prices = get_stock_close_prices(self)
             stock_data_model.save()
         except ObjectDoesNotExist:
-            print("(Stock.py) There was a problem executing getting the data or saving it to the database.")
+            print("(Stock.py 2) There was a problem executing getting the data or saving it to the database.")
     
     
     def add_indicator(self, strategy, primary_key, recommendation):
@@ -62,8 +60,8 @@ class Stock:
             elif strategy == "bollinger bands":
                 stock_record.bollinger_bands_signal = recommendation
             stock_record.save()
-        except Exception as exception_type:
-            print(f"(Stock.py) The {strategy} indicator for {self.ticker} could not be added to the database due to Error: {exception_type}")
+        except Exception as e:
+            print(f"(Stock.py 3) The {strategy} indicator for {self.ticker} could not be added to the database due to Error: {e}")
     
     
     def make_recommendation(self, primary_key):
@@ -76,7 +74,7 @@ class Stock:
             rsi_signal = all_signals.rsi_signal
             bollinger_bands_signal = all_signals.bollinger_bands_signal
         except Recommendations.DoesNotExist:
-            print(f"(Stock.py) The trading signals for {self.ticker} could not be loaded to due Error: {exception_type}")
+            print(f"(Stock.py 4) The trading signals for {self.ticker} could not be loaded")
             
         try:
             if moving_average_signal == "Buy": score += 1
@@ -95,12 +93,12 @@ class Stock:
             elif score == -1: recommendation = "Sell"
             elif score == -2: recommendation = "Strong Sell"
             elif score == -3: recommendation = "Very Strong Sell"
-        except Exception as exception_type:
-            print(f"(Stock.py) The recommendation for {self.ticker} could not be calculated due to Error: {exception_type}")
+        except Exception as e:
+            print(f"(Stock.py 5) The recommendation for {self.ticker} could not be calculated due to Error: {e}")
         
         try:
             update_db = Recommendations.objects.get(stock_id=primary_key)
             update_db.overall_recommendation = recommendation
             update_db.save()
-        except Exception as exception_type:
-            print(f"(Stock.py) The final recommendation for {self.ticker} could not be saved to the database due to Error: {exception_type}")
+        except Exception as e:
+            print(f"(Stock.py 6) The final recommendation for {self.ticker} could not be saved to the database due to Error: {e}")
