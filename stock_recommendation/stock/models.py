@@ -21,7 +21,7 @@ class Stock(models.Model):
 class StockData(models.Model):
     ticker = models.ForeignKey(Stock,
                                on_delete=models.CASCADE,
-                               related_name='stockData',
+                               related_name='stock_data',
                                db_column='ticker')
     current_date = models.DateField(null=True)
     current_price = models.FloatField(null=True)
