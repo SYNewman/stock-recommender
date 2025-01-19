@@ -10,41 +10,34 @@
         <meta http-equiv="refresh" content="600">
     </head>
     <body>
-        
-        <h2>Very Strong Buy</h2>
-        {% for i in very_strong_buy %}
-            <li> {{ i }} </li>
-        {% endfor %}
+        <!--Maybe add header here, or use 'extends' function-->
+        <!--Add form for a search bar-->
 
-        <h2>Strong Buy</h2>
-        {% for i in strong_buy %}
-            <li> {{ i }} </li>
-        {% endfor %}
 
-        <h2>Buy</h2>
-        {% for i in buy %}
-            <li> {{ i }} </li>
-        {% endfor %}
-
-        <h2>Very Strong Sell</h2>
-        {% for i in very_strong_sell %}
-            <li> {{ i }} </li>
-        {% endfor %}
-
-        <h2>Strong Sell</h2>
-        {% for i in strong_sell %}
-            <li> {{ i }} </li>
-        {% endfor %}
-
-        <h2>Sell</h2>
-        {% for i in sell %}
-            <li> {{ i }} </li>
-        {% endfor %}
-
-        <h2>Error</h2>
-        {% for i in error %}
-            <li> {{ i }} </li>
-        {% endfor %}
+        <table>
+            <tr>
+                <th>Ticker</th>
+                <th>Company</th>
+                <th>Price</th>
+                <th>Buy</th>
+                <th>Hold</th>
+                <th>Sell</th>
+            </tr>
+            {%for i in data%}
+                <!--Turn this table row into a link to that stock's page-->
+                <!--Make the colour of all/some column change depending on price change-->
+                <tr>
+                    <td>{{i.ticker}}</td>
+                    <td>{{i.company_name}}</td>
+                    <td>{{i.current_price}}</td>
+                    <td>{{i.price_change}}</td>
+                    <td>{{i.price_change_percent}}</td>
+                    <td>{{i.total_buy_signals}}</td>
+                    <td>{{i.total_hold_signals}}</td>
+                    <td>{{i.total_hold_signals}}</td>
+                </tr>
+            {%endfor%}
+        </table>
         
         <script src="" async defer></script>
     </body>
