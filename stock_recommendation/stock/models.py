@@ -26,6 +26,8 @@ class StockData(models.Model):
     current_date = models.DateField(null=True)
     current_price = models.FloatField(null=True)
     last_200_close_prices = models.JSONField(null=True)
+    price_change = models.FloatField(null=True)
+    price_change_percent = models.FloatField(null=True)
 
 # Contains each strategies' signal
 class Strategies(models.Model):
