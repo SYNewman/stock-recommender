@@ -28,6 +28,10 @@ class StockData(models.Model):
     last_200_close_prices = models.JSONField(null=True)
     price_change = models.FloatField(null=True)
     price_change_percent = models.FloatField(null=True)
+    
+    def __str__(self):
+        return f"{self.ticker}"
+    
 
 # Contains each strategies' signal
 class Strategies(models.Model):
@@ -38,6 +42,10 @@ class Strategies(models.Model):
     moving_averages = models.CharField(max_length=5, null=True)
     rsi = models.CharField(max_length=5, null=True)
     bollinger_bands = models.CharField(max_length=5, null=True)
+    
+    def __str__(self):
+        return f"{self.ticker}"
+    
 
 # Contains recommendation info
 class Recommendations(models.Model):
@@ -48,3 +56,7 @@ class Recommendations(models.Model):
     total_buy_signals = models.IntegerField(default=0)
     total_hold_signals = models.IntegerField(default=0)
     total_sell_signals = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"{self.ticker}"
+    
