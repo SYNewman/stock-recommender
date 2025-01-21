@@ -1,12 +1,11 @@
-from stock.app_logic import Strategies
-from stock import models
+from stock.models import Stock
+from stock.app_logic.Strategies import Strategy
+from stock.app_logic.Stock_Class import Stock_Class
 
-class Bollinger_Bands_Strategy():
+class Bollinger_Bands_Strategy(Strategy):
     
-    def __init__(self, strategy, stats, price):
-        super().__init__(strategy, stats)
-        self.price = price
-        self.stats = stats
+    def __init__(self, ticker):
+        super().__init__(ticker)
         self.mean_close = 0
         self.standard_deviation = 0
         self.upper_band = 0
@@ -41,23 +40,24 @@ class Bollinger_Bands_Strategy():
         self.lower_band = self.mean_close - (2 * self.standard_deviation)
         
     def generate_signal(self):
-        stock_field = Stock.objects.get(ticker=i)
-        stock_id = stock_field.stock_id
+        stock_field = Stock.objects.get(ticker=self.ticker)
+        ticker = stock_field.ticker
+        stock = Stock_Class(ticker)
         
         if self.price >= self.upper_band:
-            Stock.add_indicator("bollinger bands", stock_id, "Sell")
+            stock.add_indicator("bollinger bands", "Sell")
             print("Sell")
         elif self.price <= self.lower_band:
-            Stock.add_indicator("bollinger bands", stock_id, "Buy")
+            stock.add_indicator("bollinger bands", "Buy")
             print("Buy")
         else:
-            Stock.add_indicator("bollinger bands", stock_id, "Hold")
+            stock.add_indicator("bollinger bands", "Hold")
             print("Hold")
             
     def apply_strategy(self):
-        calculate_mean_close(self)
-        calculate_deviations(self)
-        calculate_variance(self)
-        calculate_standard_deviation(self)
-        calculate_bands(self)
-        generate_signal(self)
+        self.calculate_mean_close()
+        self.calculate_deviations()
+        self.calculate_variance()
+        self.calculate_standard_deviation()
+        self.calculate_bands()
+        self.generate_signal()

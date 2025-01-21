@@ -1,13 +1,12 @@
-from stock.app_logic import Strategies
-from stock import models
+from stock.models import Stock
+from stock.app_logic.Strategies import Strategy
+from stock.app_logic.Stock_Class import Stock_Class
 
-class RSI_Strategy():
+class RSI_Strategy(Strategy):
     
-    def __init__(self, strategy, stats, price):
-        super().__init__(strategy, stats)
+    def __init__(self, ticker):
+        super().__init__(ticker)
         self.time_period = 14
-        self.stats = stats
-        self.price = price
         self.price_changes = []
         self.gains = []
         self.losses = []
@@ -19,7 +18,7 @@ class RSI_Strategy():
         self.rsi_value = 0
     
     def calculate_daily_price_change(self):
-        for i in range(len(self.stats-1)):
+        for i in range(len(self.stats)-1):
             price_change = self.stats[i] - self.stats[i+1]
             self.price_changes.append(price_change)
     
@@ -51,14 +50,14 @@ class RSI_Strategy():
         current_gain = self.price - self.stats[-1]
         if current_gain < 0:
             current_gain = 0
-        previous_average_gain = average_gain * (self.time_period - 1)
+        previous_average_gain = self.average_gain * (self.time_period - 1)
         self.second_average_gain = (previous_average_gain + current_gain) / self.time_period
         
     def calculate_second_average_loss(self): # To smooth out the values
         current_loss = self.price - self.stats[-1]
         if current_loss < 0:
             current_loss = 0
-        previous_average_loss = average_loss * (self.time_period - 1)
+        previous_average_loss = self.average_loss * (self.time_period - 1)
         self.second_average_loss = (previous_average_loss + current_loss) / self.time_period
     
     def calculate_relative_strength(self):
@@ -67,29 +66,30 @@ class RSI_Strategy():
         self.rs_value = self.second_average_gain / self.second_average_loss
     
     def calculate_rsi_value(self):
-        self.rsi_value = 100 - (100 / (self.rs+1))
+        self.rsi_value = 100 - (100 / (self.rs_value+1))
     
     def generate_signal(self):
-        stock_field = Stock.objects.get(ticker=i)
-        stock_id = stock_field.stock_id
+        stock_field = Stock.objects.get(ticker=self.ticker)
+        ticker = stock_field.ticker
+        stock = Stock_Class(ticker)
         
         if self.rsi_value < 30:
-            Stock.add_indicator("rsi", stock_id, "Buy")
+            stock.add_indicator("rsi", "Buy")
             print("Buy")
         elif self.rsi_value > 70:
-            Stock.add_indicator("rsi", stock_id, "Sell")
+            stock.add_indicator("rsi", "Sell")
             print("Sell")
         else:
-            Stock.add_indicator("rsi", stock_id, "Hold")
+            stock.add_indicator("rsi", "Hold")
             print("Hold")
             
     def apply_strategy(self):
-        calculate_daily_price_change(self)
-        separate_gains_and_losses(self)
-        calculate_average_gain(self)
-        calculate_average_loss(self)
-        calculate_second_average_gain(self)
-        calculate_second_average_loss(self)
-        calculate_relative_strength(self)
-        calculate_rsi_value(self)
-        generate_signal(self)
+        self.calculate_daily_price_change()
+        self.separate_gains_and_losses()
+        self.calculate_average_gain()
+        self.calculate_average_loss()
+        self.calculate_second_average_gain()
+        self.calculate_second_average_loss()
+        self.calculate_relative_strength()
+        self.calculate_rsi_value()
+        self.generate_signal()

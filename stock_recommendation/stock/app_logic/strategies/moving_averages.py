@@ -1,14 +1,13 @@
-from stock.app_logic import Strategies
-from stock import models
+from stock.models import Stock
+from stock.app_logic.Strategies import Strategy
+from stock.app_logic.Stock_Class import Stock_Class
 
-class Moving_Average_Strategy():
+class Moving_Average_Strategy(Strategy):
     
-    def __init__(self, strategy, stats, price):
-        #super().__init__(strategy, stats, price)
+    def __init__(self, ticker):
+        super().__init__(ticker)
         self.short_term_moving_average = 0
         self.long_term_moving_average = 0
-        self.stats = stats
-        self.price = price
         
     def calculate_short_term_moving_average(self):
         total_close_prices = 0
@@ -23,20 +22,21 @@ class Moving_Average_Strategy():
         self.long_term_moving_average = total_close_prices/200
     
     def generate_signal(self):
-        stock_field = Stock.objects.get(ticker=i)
-        stock_id = stock_field.stock_id
+        stock_field = Stock.objects.get(ticker=self.ticker)
+        ticker = stock_field.ticker
+        stock = Stock_Class(ticker)
         
         if self.price > self.short_term_moving_average and self.short_term_moving_average > self.long_term_moving_average:
-            Stock.add_indicator("moving averages", stock_id, "Buy")
+            stock.add_indicator("moving averages", "Buy")
             print("Buy")
         elif self.price < self.short_term_moving_average and self.short_term_moving_average < self.long_term_moving_average:
-            Stock.add_indicator("moving averages", stock_id, "Sell")
+            stock.add_indicator("moving averages", "Sell")
             print("Sell")
         else:
-            Stock.add_indicator("moving averages", stock_id, "Hold")
+            stock.add_indicator("moving averages", "Hold")
             print("Hold")
             
     def apply_strategy(self):
-        calculate_short_term_moving_average(self)
-        calculate_long_term_moving_average(self)
-        generate_signal(self)
+        self.calculate_short_term_moving_average()
+        self.calculate_long_term_moving_average()
+        self.generate_signal()

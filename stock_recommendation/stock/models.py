@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
 
 #Contains information about each user
 class Users(models.Model):
@@ -13,8 +15,8 @@ class Users(models.Model):
 # Contains basic information about each stock
 class Stock(models.Model):
     ticker = models.CharField(max_length=5, primary_key=True)
-    company_name = models.CharField(max_length=100, null=True)
-    sector = models.CharField(max_length=100, null=True)
+    company_name = models.CharField(max_length=100, null=True, blank=True)
+    sector = models.CharField(max_length=100, null=True, blank=True)
     last_updated = models.DateTimeField(default=now)
 
 # Contains the main data for each stock
@@ -23,11 +25,11 @@ class StockData(models.Model):
                                on_delete=models.CASCADE,
                                related_name='stock_data',
                                db_column='ticker')
-    current_date = models.DateField(null=True)
-    current_price = models.FloatField(null=True)
-    last_200_close_prices = models.JSONField(null=True)
-    price_change = models.FloatField(null=True)
-    price_change_percent = models.FloatField(null=True)
+    current_date = models.DateField(null=True, blank=True)
+    current_price = models.FloatField(null=True, blank=True)
+    last_200_close_prices = models.JSONField(null=True, blank=True)
+    price_change = models.FloatField(null=True, blank=True)
+    price_change_percent = models.FloatField(null=True, blank=True)
     
     def __str__(self):
         return f"{self.ticker}"
@@ -39,9 +41,9 @@ class Strategies(models.Model):
                                on_delete=models.CASCADE,
                                related_name='strategies',
                                db_column='ticker')
-    moving_averages = models.CharField(max_length=5, null=True)
-    rsi = models.CharField(max_length=5, null=True)
-    bollinger_bands = models.CharField(max_length=5, null=True)
+    moving_averages = models.CharField(max_length=5, null=True, blank=True)
+    rsi = models.CharField(max_length=5, null=True, blank=True)
+    bollinger_bands = models.CharField(max_length=5, null=True, blank=True)
     
     def __str__(self):
         return f"{self.ticker}"
@@ -53,10 +55,22 @@ class Recommendations(models.Model):
                                on_delete=models.CASCADE,
                                related_name='recommendations',
                                db_column='ticker')
-    total_buy_signals = models.IntegerField(default=0)
-    total_hold_signals = models.IntegerField(default=0)
-    total_sell_signals = models.IntegerField(default=0)
+    total_buy_signals = models.IntegerField(null=True, blank=True)
+    total_hold_signals = models.IntegerField(null=True, blank=True)
+    total_sell_signals = models.IntegerField(null=True, blank=True)
     
     def __str__(self):
         return f"{self.ticker}"
     
+
+@receiver(pre_save, sender=Stock)
+def before_stock_save(sender, instance, **kwargs):
+    print(f"Before saving stock: {instance.ticker}")
+
+@receiver(post_save, sender=Stock)
+def after_stock_save(sender, instance, created, **kwargs):
+    if created:
+        print(f"New stock created: {instance.ticker}")
+    else:
+        print(f"Stock updated: {instance.ticker}")
+        print(f"{instance.ticker}: {instance.company_name}, {instance.sector}")
