@@ -12,6 +12,11 @@ def home_page(request):
 
 
 
+def tutorial_page(request):
+    return render(request, "tutorial.html")
+
+
+
 def sign_up_page(request):
     return render (request, "sign_up.html")
 

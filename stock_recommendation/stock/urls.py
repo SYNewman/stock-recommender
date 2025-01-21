@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.home_page, name="home_page"), #Home page
-    path('recommendations', views.recommendations_page, name='recommendations'), #Main page
+    path('recommendations', views.recommendations_page, name='recommendations'),
+    path('tutorial', views.tutorial_page, name='tutorial'),
     
     #Calculators
     path('options-pricing-calculator', views.options_calculator_page, name='options-pricing-calculator'),

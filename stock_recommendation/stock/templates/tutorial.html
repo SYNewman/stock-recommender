@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Tutorial</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h1>Tutorial</h1>
+        <h3>This page will explain the basics of how the stock market works,
+            how to use this platform, and how each of the strategies works.
+        </h2>
+
+        <div id="stock-market-basics">
+            <h2>How does the stock market work?</h2>
+            <p>
+               A prerequisite for using this website properly is to understand
+               what the stock market is and how it works. There are many free
+               resources online to learn the basics, but you can learn them quickly
+               <a href=https://www.investopedia.com/articles/investing/082614/how-stock-market-works.asp>here</a>,
+               or you can watch this video:
+            </p>
+            <iframe src="https://www.youtube.com/watch?v=p7HKvqRI_Bo"></iframe>
+        </div>
+
+        <div id="how-to-use-this-site">
+            <h2>How to use this website<h2>
+            <p>
+               Usually, a person invest using a trading strategy (or multiple).
+               This is the approach which has been taken for this platform.
+               When going onto the recommendations page, it will calculate wether
+               a buy, sell or hold signal has been generated for each stock by each
+               strategy. However, the signals are not generated the same way as is
+               usually done.
+            </p>
+            <ul>
+                <li>The buy signals are generated as normal.</li>
+                <li>
+                    The sell signals are generated as the opposite of the buy signal.
+                    For example, in the moving average strategy, usually a sell signal
+                    is generated when the long-term moving average crosses over the
+                    short-term moving average. On this site however, a sell signal is
+                    generated when the long-term moving average is below the short-term
+                    moving average and the price is below the long term moving average,
+                    signaling a down trend. This allows the user to short stocks based
+                    on each strategy.
+                </li>
+                <li>
+                    A hold signal is generated when neither a buy nor a sell signal has
+                    been generated for a given stock by a given strategy.
+                </li>
+
+            </ul>
+            <p>
+               We have left the task of selecting a take profit level and a stop loss
+               up to the user. This allows each person to trade according to the risk
+               which they are willing to make. This also allows us to show stocks which
+               are good for shorting, rather than merely a list stocks which already had
+               a buy signal and now don't.
+            </p>
+        </div>
+
+        <!--add explanation of how the strategies work here-->
+        <div id="explanation-of-strategies">
+            <h2>Explanation of Strategies</h2>
+            <div id="moving-averages">
+                <h3>Moving Averages</h3>
+                <p>
+                    A short term moving average (MA) is calculated as being the mean of the
+                    last 50 close prices of a given stock. A long term MA is the same, but
+                    for the last 200 days. When the short term MA crosses above the long term
+                    MA & the price is above the short term MA, a buy signal is triggered. When
+                    the long term MA crosses above the short term MA, & the price is below the
+                    long term moving average, a sell signal is triggered.
+                </p>
+            </div>
+            <div id="rsi">
+                <h3>RSI</h3>
+                <p>
+                    Using the RSI formula and a 14 day lookback period, an RSI value is calculated
+                    for each stock, which will be between 0 & 100. If the RSI value is below 30, a 
+                    buy signal is triggered. If the RSI value is above 70, a sell signal is triggered.
+                    Click <a href="https://www.investopedia.com/terms/r/rsi.asp">here</a> to learn more 
+                    about how the RSI value is calculated.
+                </p>
+            </div>
+            <div id="bollinger-bands">
+                <h3>Bollinger Bands</h3>
+                <p>
+                    For each stock a 20-day MA is calculated. The upper 'bollinger band' is set at 2 
+                    standard deviations above the 20-day MA. The lower 'bollinger band' is set at 2 
+                    standard deviations below the 20-day MA. If the stock price crosses below the 
+                    lower bollinger band a buy signal is triggered. If the stock price crosses above 
+                    the upper bollinger band a sell signal is triggered.
+                </p>
+            </div>
+        </div>
+
+        <script src="" async defer></script>
+    </body>
+</html>
