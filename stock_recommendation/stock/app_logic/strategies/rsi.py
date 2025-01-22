@@ -75,13 +75,10 @@ class RSI_Strategy(Strategy):
         
         if self.rsi_value < 30:
             stock.add_indicator("rsi", "Buy")
-            print("Buy")
         elif self.rsi_value > 70:
             stock.add_indicator("rsi", "Sell")
-            print("Sell")
         else:
             stock.add_indicator("rsi", "Hold")
-            print("Hold")
             
     def apply_strategy(self):
         self.calculate_daily_price_change()

@@ -14,7 +14,6 @@ class Trading_System:
     def compile_queue(self):
         from stock.models import Stock
         list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[0:101]
-        print("getting all db stocks seems to have been successful")
         for i in list_of_stocks.values():
             try:
                 #Update db with new data
@@ -33,8 +32,6 @@ class Trading_System:
                 self.list_of_operations.append(lambda:bollinger_band_strategy.apply_strategy())
                     
                 self.list_of_operations.append(lambda:stock_object.set_recommendations(i))
-                
-                print(f"Everything seems to have worked for {i}")
             except Exception as e:
                 print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {e}")
         print(list_of_stocks)
@@ -44,6 +41,5 @@ class Trading_System:
             while self.list_of_operations:  # Runs all operations from the queue & then removes them
                 operations = self.list_of_operations.popleft()
                 operations()
-                print("Running all operations seems to have been successful")
         except Exception as e:
             print(f"(Trading_System.py) The operations could not be executed due to Error: {e}")

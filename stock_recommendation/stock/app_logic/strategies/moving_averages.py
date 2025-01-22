@@ -28,13 +28,10 @@ class Moving_Average_Strategy(Strategy):
         
         if self.price > self.short_term_moving_average and self.short_term_moving_average > self.long_term_moving_average:
             stock.add_indicator("moving averages", "Buy")
-            print("Buy")
         elif self.price < self.short_term_moving_average and self.short_term_moving_average < self.long_term_moving_average:
             stock.add_indicator("moving averages", "Sell")
-            print("Sell")
         else:
             stock.add_indicator("moving averages", "Hold")
-            print("Hold")
             
     def apply_strategy(self):
         self.calculate_short_term_moving_average()

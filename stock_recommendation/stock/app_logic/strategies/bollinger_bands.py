@@ -46,13 +46,10 @@ class Bollinger_Bands_Strategy(Strategy):
         
         if self.price >= self.upper_band:
             stock.add_indicator("bollinger bands", "Sell")
-            print("Sell")
         elif self.price <= self.lower_band:
             stock.add_indicator("bollinger bands", "Buy")
-            print("Buy")
         else:
             stock.add_indicator("bollinger bands", "Hold")
-            print("Hold")
             
     def apply_strategy(self):
         self.calculate_mean_close()
