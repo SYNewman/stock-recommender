@@ -35,7 +35,9 @@ def recommendations_page(request):
     trading_system.compile_queue()
     trading_system.run_operations()
     
-    data = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations") # Get new data
+    # Get new data
+    data = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").all()
+    
     return render(request, "recommendations.html", {'data': data})
 
 
