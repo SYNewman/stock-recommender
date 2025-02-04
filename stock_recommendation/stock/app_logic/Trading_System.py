@@ -11,13 +11,16 @@ class Trading_System:
     def __init__(self):
         self.list_of_operations = deque()
     
+    
     def compile_queue(self):
         from stock.models import Stock
+        
         list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[0:101]
-        for i in list_of_stocks.values():
-            try:
+        
+        def process(i):
+            #try:
                 #Update db with new data
-                ticker = i.ticker
+                ticker = i['ticker']
                 stock_object = Stock_Class(ticker)
                 self.list_of_operations.append(lambda i=i: stock_object.update_data(i))
                 
@@ -31,10 +34,13 @@ class Trading_System:
                 self.list_of_operations.append(lambda:rsi_strategy.apply_strategy())
                 self.list_of_operations.append(lambda:bollinger_band_strategy.apply_strategy())
                     
-                self.list_of_operations.append(lambda:stock_object.set_recommendations(i))
-            except Exception as e:
-                print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {e}")
-        print(list_of_stocks)
+                self.list_of_operations.append(lambda i=i: stock_object.set_recommendations(i))
+            #except Exception as e:
+                #print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {e}")
+        
+        for i in list_of_stocks.values():
+            process(i)        
+        
     
     def run_operations(self):
         try:
