@@ -15,7 +15,7 @@ class Trading_System:
     def compile_queue(self):
         from stock.models import Stock
         
-        list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[0:101]
+        list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[1201:1501]
         
         def process(i):
             #try:

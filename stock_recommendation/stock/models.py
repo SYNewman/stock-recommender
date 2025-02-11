@@ -63,6 +63,8 @@ class Recommendations(models.Model):
         return f"{self.ticker}"
     
 
+'''
+This is for testing purposes
 @receiver(pre_save, sender=Stock)
 def before_stock_save(sender, instance, **kwargs):
     print(f"Before saving stock: {instance.ticker}")
@@ -74,3 +76,4 @@ def after_stock_save(sender, instance, created, **kwargs):
     else:
         print(f"Stock updated: {instance.ticker}")
         print(f"{instance.ticker}: {instance.company_name}, {instance.sector}")
+'''

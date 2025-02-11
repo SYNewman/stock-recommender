@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Exists, OuterRef
 from .models import Stock, StockData, Strategies, Recommendations
 from .app_logic import Trading_System
 from datetime import datetime
@@ -35,8 +36,16 @@ def recommendations_page(request):
     trading_system.compile_queue()
     trading_system.run_operations()
     
-    # Get new data
-    data = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").all()
+    #data = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").all() #shows stocks which don't have data - should only be used for testing
+    
+    # Fetches the new data
+    data = Stock.objects.annotate(
+        has_price=Exists( #'annotate' allows filtering of stocks shown
+            StockData.objects.filter(ticker=OuterRef("pk"), current_price__isnull=False)
+        ) #checks that the stock's price exists in db
+    ).filter(
+        company_name__isnull=False, has_price=True #Checks that the stock's company name exists
+        ).prefetch_related("stock_data", "recommendations") #Links to other tables
     
     return render(request, "recommendations.html", {'data': data})
 
