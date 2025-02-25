@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.db.models import Exists, OuterRef
 from .models import Stock, StockData, Strategies, Recommendations
@@ -47,7 +48,12 @@ def recommendations_page(request):
         company_name__isnull=False, has_price=True #Checks that the stock's company name exists
         ).prefetch_related("stock_data", "recommendations") #Links to other tables
     
-    return render(request, "recommendations.html", {'data': data})
+    # Pagination
+    paginator = Paginator(data, 100) #Shows only 100 stocks per page
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
+    
+    return render(request, "recommendations.html", {'page_object': page_object})
 
 
 
