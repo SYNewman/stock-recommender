@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Exists, OuterRef
 from .models import Stock, StockData, Strategies, Recommendations
 from .app_logic import Trading_System
@@ -54,6 +54,13 @@ def recommendations_page(request):
     page_object = paginator.get_page(page_number)
     
     return render(request, "recommendations.html", {'page_object': page_object})
+
+
+
+
+def stock_info_page(request, ticker):
+    stock_name = get_object_or_404(Stock, ticker=ticker)
+    return render(request, 'stock_info.html', {'stock':stock_name})
 
 
 

@@ -26,25 +26,26 @@
                 <th>Sell</th>
             </tr>
             {% for i in page_object %}
-                <!--Turn this table row into a link to that stock's page-->
                 <!--Make the colour of all/some column change depending on price change-->
-                <tr>
-                    <td>{{i.ticker}}</td>
-                    <td>{{i.company_name}}</td>
-                            
-                    {% for x in i.stock_data.all %}
-                        <!--'floatformat' shows number to 2dp-->
-                        <td>${{x.current_price|floatformat:2}}</td>
-                        <td>${{x.price_change|floatformat:2}}</td>    
-                        <td>{{x.price_change_percent|floatformat:2}}%</td>
-                    {% endfor %}
+                <a href="{% url 'stock_info' stock.ticker %}"> <!--Links to each stock's page-->
+                    <tr>
+                        <td>{{i.ticker}}</td>
+                        <td>{{i.company_name}}</td>
                                 
-                    {% for x in i.recommendations.all %}
-                        <td>{{x.total_buy_signals}}</td>
-                        <td>{{x.total_hold_signals}}</td>
-                        <td>{{x.total_sell_signals}}</td>
-                    {% endfor %}
-                </tr>
+                        {% for x in i.stock_data.all %}
+                            <!--'floatformat' shows number to 2dp-->
+                            <td>${{x.current_price|floatformat:2}}</td>
+                            <td>${{x.price_change|floatformat:2}}</td>    
+                            <td>{{x.price_change_percent|floatformat:2}}%</td>
+                        {% endfor %}
+                                    
+                        {% for x in i.recommendations.all %}
+                            <td>{{x.total_buy_signals}}</td>
+                            <td>{{x.total_hold_signals}}</td>
+                            <td>{{x.total_sell_signals}}</td>
+                        {% endfor %}
+                    </tr>
+                </a>
             {% endfor %}
         </table>
 
