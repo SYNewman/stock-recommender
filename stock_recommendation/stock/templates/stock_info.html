@@ -14,9 +14,7 @@
 
         <h1>{{stock.company_name|default:"No data"}}</h1>
 
-        <div>
-            <!--The graph of stock prices should go here-->
-        </div>
+        <div>{{ graph|safe }}</div> <!--graph of stock prices-->
         
         <div>
             <div>

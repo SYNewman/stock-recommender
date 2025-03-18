@@ -1,11 +1,17 @@
+# django built in features
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Exists, OuterRef
+
+# imports from this project
 from .models import Stock, StockData, Strategies, Recommendations
-from .app_logic import Trading_System
-from datetime import datetime
 from stock.calculators.options_black_scholes import Black_Scholes
 from stock.calculators.kelly_criterion import Kelly_Criterion
+
+# other modules
+from .app_logic import Trading_System
+from datetime import datetime
+import plotly.graph_objects as graph
 
 
 
@@ -59,17 +65,30 @@ def recommendations_page(request):
 
 
 def stock_info_page(request, ticker):
+    #create stock chart
+    stock = StockData.objects.get(ticker=ticker)
+    stock_prices = stock.last_200_close_prices[0:200]
+    
+    figure = graph.Figure()
+    scatter = graph.Scatter(y=stock_prices, mode="lines", name=f"{ticker} Prices")
+    figure.add_trace(scatter)
+    
+    figure.update_layout(title="Stock Prices (last 200 days)", xaxis_title="Day", yaxis_title="Price")
+    html_graph = figure.to_html(full_html=False)
+    
     #gets stock data from db tables
     stock_name = get_object_or_404(Stock, ticker=ticker) # (handles error - no page shown if no data)
     stock_data = StockData.objects.filter(ticker=ticker).first()
     strategies = Strategies.objects.filter(ticker=ticker).order_by('-id').first()
     recommendations = Recommendations.objects.filter(ticker=ticker).order_by('-id').first()
     
+    
     context = {
         'stock': stock_name,
         'stockData': stock_data,
         'strategies': strategies,
         'recommendations': recommendations,
+        'graph': html_graph,
     }
     
     return render(request, 'stock_info.html', context)
