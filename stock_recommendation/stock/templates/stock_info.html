@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{{stock.ticker}}</title>
+        <title>{{stock.company_name|default:"No data"}}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -11,6 +11,46 @@
     </head>
     <body>
         <a href="{% url 'recommendations' %}">Back</a> <!--Links back to main page-->
+
+        <h1>{{stock.company_name|default:"No data"}}</h1>
+
+        <div>
+            <!--The graph of stock prices should go here-->
+        </div>
+        
+        <div>
+            <div>
+                <h2>Company Information</h2>
+                <p>Ticker: {{stock.ticker|default:"No data"}}</p>
+                <p>Name: {{stock.company_name|default:"No data"}}</p>
+                <p>Sector: {{stock.sector|default:"No data"}}</p>
+            </div>
+
+            <div>
+                <h2>Financial Information</h2>
+                <p>Price: {{stockData.current_price|default:"No data"}}</p>
+                <p>Change ($): {{stockData.price_change|default:"No data"}}</p>
+                <p>Change (%): {{stockData.price_change_percent|default:"No data"}}</p>
+            </div>
+
+            <div>
+                <h2>Strategies</h2>
+                <h3>The recommendation from each strategy</h3>
+                <p>Moving Average: {{strategies.moving_averages|default:"No data"}}</p>
+                <p>RSI: {{strategies.rsi|default:"No data"}}</p>
+                <p>Bollinger Bands: {{strategies.bollinger_bands|default:"No data"}}</p>
+            </div>
+
+            <div>
+                <h2>Recommendations</h2>
+                <h3>The total number of each signal from the strategies</h3>
+                <p>Buy: {{recommendations.total_buy_signals|default:"No data"}}</p>
+                <p>Hold: {{recommendations.total_hold_signals|default:"No data"}}</p>
+                <p>Sell: {{recommendations.total_sell_signals|default:"No data"}}</p>
+            </div>
+        </div>
+
+        <p>Last updated at {{stock.last_updated|default:"No data"}}</p>
         
         <script src="" async defer></script>
     </body>

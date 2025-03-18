@@ -59,8 +59,20 @@ def recommendations_page(request):
 
 
 def stock_info_page(request, ticker):
-    stock_name = get_object_or_404(Stock, ticker=ticker)
-    return render(request, 'stock_info.html', {'stock':stock_name})
+    #gets stock data from db tables
+    stock_name = get_object_or_404(Stock, ticker=ticker) # (handles error - no page shown if no data)
+    stock_data = StockData.objects.filter(ticker=ticker).first()
+    strategies = Strategies.objects.filter(ticker=ticker).order_by('-id').first()
+    recommendations = Recommendations.objects.filter(ticker=ticker).order_by('-id').first()
+    
+    context = {
+        'stock': stock_name,
+        'stockData': stock_data,
+        'strategies': strategies,
+        'recommendations': recommendations,
+    }
+    
+    return render(request, 'stock_info.html', context)
 
 
 
