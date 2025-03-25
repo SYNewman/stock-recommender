@@ -27,27 +27,28 @@
             </tr>
             {% for i in page_object %}
                 <!--Make the colour of all/some column change depending on price change-->
-                <a href="{% url 'stock_info' stock.ticker %}"> <!--Links to each stock's page-->
-                    <tr>
-                        <td>{{i.ticker}}</td>
-                        <td>{{i.company_name}}</td>
+                <tr>
+                    <td>{{i.ticker}}</td>
+                    <td>{{i.company_name}}</td>
                                 
-                        {% for x in i.stock_data.all %}
-                            <!--'floatformat' shows number to 2dp-->
-                            <td>${{x.current_price|floatformat:2}}</td>
-                            <td>${{x.price_change|floatformat:2}}</td>    
-                            <td>{{x.price_change_percent|floatformat:2}}%</td>
-                        {% endfor %}
+                    {% for x in i.stock_data.all %}
+                        <!--'floatformat' shows number to 2dp-->
+                        <td>${{x.current_price|floatformat:2}}</td>
+                        <td>${{x.price_change|floatformat:2}}</td>    
+                        <td>{{x.price_change_percent|floatformat:2}}%</td>
+                    {% endfor %}
                                     
-                        {% for x in i.recommendations.all %}
-                            <td>{{x.total_buy_signals}}</td>
-                            <td>{{x.total_hold_signals}}</td>
-                            <td>{{x.total_sell_signals}}</td>
-                        {% endfor %}
-                    </tr>
-                </a>
+                    {% for x in i.recommendations.all %}
+                        <td>{{x.total_buy_signals}}</td>
+                        <td>{{x.total_hold_signals}}</td>
+                        <td>{{x.total_sell_signals}}</td>
+                    {% endfor %}
+
+                    <td><a href="{% url 'stock_info' i.ticker %}">More Information</a></td>
+                </tr>
             {% endfor %}
         </table>
+
 
         <div class="pagination">
             {% if page_object.has_previous %}
