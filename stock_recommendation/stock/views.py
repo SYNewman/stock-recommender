@@ -1,7 +1,9 @@
 # django built in features
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Exists, OuterRef
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 # imports from this project
 from .models import Stock, StockData, Strategies, Recommendations
@@ -9,6 +11,7 @@ from stock.calculators.options_black_scholes import Black_Scholes
 from stock.calculators.kelly_criterion import Kelly_Criterion
 
 # other modules
+import datetime
 from .app_logic import Trading_System
 from datetime import datetime
 import plotly.graph_objects as graph
@@ -31,6 +34,21 @@ def sign_up_page(request):
 
 
 def log_in_page(request):
+    if request.method == "POST":
+        #retrieve input
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        last_login_time = datetime.datetime.now()
+        
+        user = authenticate(request, username=username, email=email, password=password, last_login_time=last_login_time)
+        
+        if user:
+            login(request, user)
+            return redirect("recommendations")
+        else:
+            messages.error(request, "Invalid information. Please retry")
+    
     return render (request, "log_in.html")
 
 
