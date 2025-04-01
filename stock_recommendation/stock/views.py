@@ -29,6 +29,21 @@ def tutorial_page(request):
 
 
 def sign_up_page(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")    # make sure to hash the password
+        created_date_time = datetime.datetime.now()
+        last_login_time = datetime.datetime.now()
+        
+        # code should check that the fields have been correctly filled out
+        # if correctly filled out:
+            # code here should create the user
+            # login the user (if required)
+            return redirect("recommendations")
+        else:
+            messages.error(request, "Please enter a valid information")
+    
     return render (request, "sign_up.html")
 
 
@@ -38,7 +53,7 @@ def log_in_page(request):
         #retrieve input
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = request.POST.get("password")
+        password = request.POST.get("password") # make sure to hash the password
         last_login_time = datetime.datetime.now()
         
         user = authenticate(request, username=username, email=email, password=password, last_login_time=last_login_time)
@@ -54,11 +69,14 @@ def log_in_page(request):
 
 
 def log_out_page(request):
+    # code here should log out the user
+    
     return render(request, "log_out.html")
 
 
 
 
+@requires_login
 def recommendations_page(request):
     # Update stock data
     trading_system = Trading_System.Trading_System()
@@ -86,6 +104,7 @@ def recommendations_page(request):
 
 
 
+@requires_login
 def stock_info_page(request, ticker):
     #create stock chart
     stock = StockData.objects.get(ticker=ticker)
@@ -95,7 +114,7 @@ def stock_info_page(request, ticker):
     scatter = graph.Scatter(y=stock_prices, mode="lines", name=f"{ticker} Prices")
     figure.add_trace(scatter)
     
-    figure.update_layout(title="Stock Prices (last 200 days)", xaxis_title="Day", yaxis_title="Price")
+    figure.update_layout(title="Stock Prices:", xaxis_title="Day", yaxis_title="Price")
     html_graph = figure.to_html(full_html=False)
     
     #gets stock data from db tables
