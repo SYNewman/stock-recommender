@@ -7,6 +7,7 @@ from django.contrib import messages
 
 # imports from this project
 from .models import Stock, StockData, Strategies, Recommendations
+from .hash_algorithm import Hash
 from stock.calculators.options_black_scholes import Black_Scholes
 from stock.calculators.kelly_criterion import Kelly_Criterion
 
@@ -32,7 +33,8 @@ def sign_up_page(request):
     if request.method == "POST":
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = request.POST.get("password")    # make sure to hash the password
+        password = request.POST.get("password")
+        password = Hash(password) #Hash the password
         created_date_time = datetime.datetime.now()
         last_login_time = datetime.datetime.now()
         
@@ -53,7 +55,8 @@ def log_in_page(request):
         #retrieve input
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = request.POST.get("password") # make sure to hash the password
+        password = request.POST.get("password")
+        password = Hash(password) #Hash the password
         last_login_time = datetime.datetime.now()
         
         user = authenticate(request, username=username, email=email, password=password, last_login_time=last_login_time)
