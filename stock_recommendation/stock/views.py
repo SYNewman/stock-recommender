@@ -49,8 +49,12 @@ def log_in_page(request):
         else:
             messages.error(request, "Invalid information. Please retry")
     
-    return render (request, "log_in.html")
+    return render(request, "log_in.html")
 
+
+
+def log_out_page(request):
+    return render(request, "log_out.html")
 
 
 
