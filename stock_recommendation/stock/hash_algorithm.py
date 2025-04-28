@@ -71,10 +71,6 @@ class Hash:
    def unicode_to_binary(self):
       self.value = bin(self.value)[2:]
       
-   def random_binary(self):
-      num = randint(1,4)
-      return self.binary_numbers[num]
-      
    def OR_operation(self):
       self.value = bin(self.value | self.binary[0])
       
