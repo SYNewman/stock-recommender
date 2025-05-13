@@ -10,9 +10,12 @@
     </head>
     <body>
         
-        <form>
-            <label></label><br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
         </form>
+        <a href="{% url 'log_in_page' %}">Login</a>
         
         <script src="" async defer></script>
     </body>

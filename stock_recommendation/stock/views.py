@@ -2,7 +2,9 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Exists, OuterRef
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # imports from this project
@@ -31,22 +33,18 @@ def tutorial_page(request):
 
 def sign_up_page(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        password = Hash(password) #Hash the password
-        created_date_time = datetime.datetime.now()
-        last_login_time = datetime.datetime.now()
         
-        # code should check that the fields have been correctly filled out
-        # if correctly filled out:
-            # code here should create the user
-            # login the user (if required)
+        # Over here should be the code for multiple fields. Change it later
+        
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
             return redirect("recommendations")
-        else:
-            messages.error(request, "Please enter a valid information")
-    
-    return render (request, "sign_up.html")
+    else:
+        form = UserCreationForm()
+            
+    return render(request, "sign_up.html", {"form": form})
 
 
 
@@ -55,13 +53,12 @@ def log_in_page(request):
         #retrieve input
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = request.POST.get("password")
-        password = Hash(password) #Hash the password
+        password = Hash(request.POST.get("password")) #Hash the password
         last_login_time = datetime.datetime.now()
         
         user = authenticate(request, username=username, email=email, password=password, last_login_time=last_login_time)
         
-        if user:
+        if user is not None:
             login(request, user)
             return redirect("recommendations")
         else:
@@ -72,14 +69,13 @@ def log_in_page(request):
 
 
 def log_out_page(request):
-    # code here should log out the user
-    
-    return render(request, "log_out.html")
+    logout(request)
+    return redirect("home_page")
 
 
 
 
-@requires_login
+@login_required
 def recommendations_page(request):
     # Update stock data
     trading_system = Trading_System.Trading_System()
@@ -107,7 +103,7 @@ def recommendations_page(request):
 
 
 
-@requires_login
+@login_required
 def stock_info_page(request, ticker):
     #create stock chart
     stock = StockData.objects.get(ticker=ticker)

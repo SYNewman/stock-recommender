@@ -10,10 +10,13 @@
     </head>
     <body>
         
-        <form>
-            <label></label><br>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
         </form>
+        <a href="{% url 'sign_up_page' %}">Register</a>
         
         <script src="" async defer></script>
-    </body>
-</html>
+    </body>
