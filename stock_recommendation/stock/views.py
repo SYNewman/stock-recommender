@@ -53,10 +53,10 @@ def log_in_page(request):
         #retrieve input
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = Hash(request.POST.get("password")) #Hash the password
-        last_login_time = datetime.datetime.now()
+        password = request.POST.get("password")
+        last_login_time = datetime.now()
         
-        user = authenticate(request, username=username, email=email, password=password, last_login_time=last_login_time)
+        user = authenticate(request, username=username, password=password)
         
         if user is not None:
             login(request, user)

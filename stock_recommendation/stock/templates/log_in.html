@@ -10,7 +10,7 @@
     </head>
     <body>
         
-        <form method="POST">
+        <form method="POST"  action="{% url 'log_in_page' %}">
             {% csrf_token %}
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
@@ -19,4 +19,4 @@
         <a href="{% url 'sign_up_page' %}">Register</a>
         
         <script src="" async defer></script>
-    </body>
+    </body>
