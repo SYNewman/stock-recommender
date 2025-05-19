@@ -17,5 +17,6 @@ urlpatterns = [
     path('sign_up', views.sign_up_page, name="sign_up_page"),
     path('log_in', views.log_in_page, name="log_in_page"),
     path('log_out', views.log_out_page, name="log_out_page"),
-    path('accounts/login/', views.log_in_page, name="other_login"), #this is for redirecting when a non-signed-in user is trying to access a protected page
+    #this is for redirecting when a non-signed-in user is trying to access a protected page:
+    path('accounts/login/', views.log_in_page, name="other_login"),
 ]
