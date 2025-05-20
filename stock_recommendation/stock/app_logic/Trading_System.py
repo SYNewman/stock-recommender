@@ -12,12 +12,12 @@ class Trading_System:
         self.list_of_operations = deque()
     
     
-    def compile_queue(self):
+    def compile_queue(self): #Makes the list of operations
+        # Get all stock data
         from stock.models import Stock
-        
         list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[1201:1501]
         
-        def process(i):
+        def process(i): #Updates & gets new data
             #try:
                 #Update db with new data
                 ticker = i['ticker']
@@ -38,11 +38,11 @@ class Trading_System:
             #except Exception as e:
                 #print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {e}")
         
-        for i in list_of_stocks.values():
+        for i in list_of_stocks.values(): #Runs the process for each stock
             process(i)        
         
     
-    def run_operations(self):
+    def run_operations(self): #Runs each of the operations in order
         try:
             while self.list_of_operations:  # Runs all operations from the queue & then removes them
                 operations = self.list_of_operations.popleft()

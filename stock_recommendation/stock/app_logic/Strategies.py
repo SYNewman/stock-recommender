@@ -13,6 +13,7 @@ class Strategy(ABC):
         self.stats = stock_field.last_200_close_prices
         self.price = stock_field.current_price
         
+    # Abstract methods are to force the same style for each strategy class
     @abstractmethod
     def generate_signal(self):
         pass
