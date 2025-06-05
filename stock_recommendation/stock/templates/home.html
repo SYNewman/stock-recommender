@@ -10,13 +10,92 @@
     </head>
     <body>
         
-        <!--
-        put content here
-        content can be found in project notes under the 'home page html' section
-        -->
+        <div class="top">
+            <h1>Stock Recommender</h1>
+            <p>
+                Welcome to my Stock Recommender website. This is the chosen project of 
+                my coursework (Non Exam Assessment) for my Computer Science A-Level.
+            </p>
 
-        <a href="/sign_up">Sign Up</a>
-        <a href="/log_in">Log In</a>
+        <div class="login_logout">
+            <a href="/sign_up">Sign Up</a>
+            <a href="/log_in">Log In</a>
+        </div>
+
+        <div class="explanation">
+            One of the most popular ways of making money is through buying and selling stocks 
+            on the Stock Market. This method is used by many, from a simple worker trying to 
+            make some extra side money to large teams in Banks and in Hedge Funds.<br><br>
+            In order to make a profit, investors need to have a strategy, which will give them 
+            clear indicators as to when to buy a stock, when to collect profits and when to take 
+            losses in a losing trade. There are many of these strategies which are been used 
+            frequently, however, they all require the investor to find stocks which fulfil the 
+            criteria of a given strategy by themselves. This is an extremely tedious process, 
+            given that it requires a trader to look through as many stocks as possible, which 
+            numbered 58,200 at the end of Q1 in 2022 , and because the prices of each of these 
+            stocks (which to an extent determines whether to buy the stock) changes every few 
+            seconds whilst the markets are open.<br><br>
+            It also means that anyone who has entered into a trade must constantly check the 
+            price of the stocks which they have bought, in order to determine whether their 
+            strategy suggests that it is time to sell. The frequency with which a stock must be 
+            checked upon is usually once a day for stocks bought with an investing strategy, 
+            and up to multiple times an hour with trading strategies , especially those in the 
+            category of day trading .<br><br>
+            This makes the job of investors even more complex, as they must compare every stock 
+            to every strategy (which they are comfortable with using), in order to maximise profit. 
+            This inevitably reduces the amount of time available to search through more stocks, 
+            once again capping investor’s ability to make more money.<br><br>
+            Furthermore, making money through the stock market requires a person to have a proper 
+            understanding of how the stock market works, commonly used terminology and knowledge 
+            of how to use investing & trading strategies profitably. This greatly limits the 
+            amount of people using the stock market, meaning that the prices of stocks are 
+            lower than they could be (due to the demand for stocks not being at its maximum 
+            potential), and hence a shared prosperity is somewhat prevented.<br><br>
+            It is for these reasons that I am creating this project, a stock market analyser. 
+            This programme will import stock data for thousands of stocks from popular APIs, 
+            store them in a database, and then apply multiple trading/investing strategies to 
+            each one of them, displaying a list of stocks which it recommends to buy, and similarly 
+            a list of stocks to sell (in order to prevent of losses) – all displayed on a website, 
+            which is the easiest way for users to view it. This solves the problems related above, 
+            as it removes the need for tedious searching through thousands of stocks, it severely 
+            reduces the time required to check whether action is needed for already owned stocks, 
+            and it ends the need for someone to understand the stock market and its strategies in 
+            order to make money.<br><br>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h2>Recommendations</h2>
+                <p>On this page you can find recommendations of which stocks to buy and which stocks to sell, 
+                   based on popular trading strategies. Look at the main page to see quick info and to see how
+                   many strategies recommend to buy each stock, and click on the button next to a stock to see
+                   more detailed information.
+                </p>
+                <a href="/recommendations">Recommendations</a><br>
+                <a href="/tutorial">Explanation of how the stock market & this 
+                    website's scoring system works
+                </a>
+            </div>
+
+            <div class="feature">
+                <h2>Options Calculator</h2>
+                <p>Other than stocks, people also trade Options on the stock market.
+                    Here you can find the approximate value of a given stock option.
+                </p>
+                <a href="/options-calculator">Options Calculator</a>
+            </div>
+
+            <div class="feature">
+                <h2>Kelly Criterion Calculator</h2>
+                <p>Once you have a stock you want to buy, you need to decide how much
+                    of your portfolio to invest in that stock. Here you can find the 
+                    mathematically optimal percent of a portfolio to invest in a stock,
+                    calculated using the Kelly Criterion - one of the most well known 
+                    formulas for this task.
+                </p>
+                <a href="/kelly-criterion">Kelly Criterion Calculator</a>
+            </div>
+        </div>
 
         <script src="" async defer></script>
     </body>
