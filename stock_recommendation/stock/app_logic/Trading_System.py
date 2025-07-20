@@ -15,10 +15,10 @@ class Trading_System:
     def compile_queue(self): #Makes the list of operations
         # Get all stock data
         from stock.models import Stock
-        list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[1201:1501]
+        list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[300:401]
         
         def process(i): #Updates & gets new data
-            #try:
+            try:
                 #Update db with new data
                 ticker = i['ticker']
                 stock_object = Stock_Class(ticker)
@@ -35,8 +35,8 @@ class Trading_System:
                 self.list_of_operations.append(lambda:bollinger_band_strategy.apply_strategy())
                     
                 self.list_of_operations.append(lambda i=i: stock_object.set_recommendations(i))
-            #except Exception as e:
-                #print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {e}")
+            except Exception as e:
+                print(f"(Trading_System.py) The required actions for {i} could not be run due to Error: {e}")
         
         for i in list_of_stocks.values(): #Runs the process for each stock
             process(i)        
