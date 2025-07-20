@@ -26,9 +26,9 @@ class Moving_Average_Strategy(Strategy):
         ticker = stock_field.ticker
         stock = Stock_Class(ticker)
         
-        if self.price > self.short_term_moving_average and self.short_term_moving_average > self.long_term_moving_average:
+        if (self.price > self.short_term_moving_average) and (self.short_term_moving_average > self.long_term_moving_average):
             stock.add_indicator("moving averages", "Buy")
-        elif self.price < self.short_term_moving_average and self.short_term_moving_average < self.long_term_moving_average:
+        elif (self.price < self.short_term_moving_average) and (self.short_term_moving_average < self.long_term_moving_average):
             stock.add_indicator("moving averages", "Sell")
         else:
             stock.add_indicator("moving averages", "Hold")
