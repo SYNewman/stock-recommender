@@ -27,9 +27,9 @@
 
             <div>
                 <h2>Financial Information</h2>
-                <p>Price: {{stockData.current_price|default:"No data"}}</p>
-                <p>Change ($): {{stockData.price_change|default:"No data"}}</p>
-                <p>Change (%): {{stockData.price_change_percent|default:"No data"}}</p>
+                <p>Price: {{stockData.current_price|default:"No data"|floatformat:2}}</p>
+                <p>Change ($): {{stockData.price_change|default:"No data"|floatformat:2}}</p>
+                <p>Change (%): {{stockData.price_change_percent|default:"No data"|floatformat:2}}</p>
             </div>
 
             <div>
@@ -43,9 +43,9 @@
             <div>
                 <h2>Recommendations</h2>
                 <h3>The total number of each signal from the strategies</h3>
-                <p>Buy: {{recommendations.total_buy_signals|default:"No data"}}</p>
-                <p>Hold: {{recommendations.total_hold_signals|default:"No data"}}</p>
-                <p>Sell: {{recommendations.total_sell_signals|default:"No data"}}</p>
+                <p>Buy: {{recommendations.total_buy_signals|default:0}}</p>
+                <p>Hold: {{recommendations.total_hold_signals|default:0}}</p>
+                <p>Sell: {{recommendations.total_sell_signals|default:0}}</p>
             </div>
         </div>
 
