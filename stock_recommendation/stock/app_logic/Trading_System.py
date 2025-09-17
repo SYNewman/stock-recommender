@@ -15,7 +15,7 @@ class Trading_System:
     def compile_queue(self): #Makes the list of operations
         # Get all stock data
         from stock.models import Stock
-        list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[300:401]
+        list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[100:201]
         
         def process(i): #Updates & gets new data
             try:
