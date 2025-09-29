@@ -2,8 +2,9 @@ class Kelly_Criterion:
     
     '''
     This class uses the Kelly Criterion to calculate how much of a trader's capital should
-    be put into a single trade (as a percentage). Search online to view the formula for the
-    Kelly Criterion, or to understand how it works.
+    be put into a single trade (as a percentage). See the 'Key Algorithms' section of the
+    'Design' part of the project documentation to view the formula for the Kelly Criterion,
+    or to understand how it works.
         
     Variables named with only a letter (self.w, self.r & self.k) refer to the
     one-letter value with which that variable is presented in the mathematical
