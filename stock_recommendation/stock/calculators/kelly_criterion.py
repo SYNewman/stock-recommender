@@ -32,7 +32,7 @@ class Kelly_Criterion:
             self.average_loss == 1
         self.r = self.average_win / self.average_loss
         
-    def calculate_kelly_percent(self):
+    def calculate_kelly_percent(self): # Using the formula
         w = self.w
         r = self.r
         self.k = w - ((1-w)/r)

@@ -62,7 +62,7 @@ class RSI_Strategy(Strategy):
     
     def calculate_relative_strength(self):
         if self.second_average_loss == 0:
-            self.rs_value = float('inf')
+            self.rs_value = float('inf') #to avoid an error by dividing by zero
         self.rs_value = self.second_average_gain / self.second_average_loss
     
     def calculate_rsi_value(self):

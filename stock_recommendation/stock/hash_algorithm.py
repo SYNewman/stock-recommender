@@ -3,7 +3,7 @@ class Hash:
    def __init__(self, value):
       self.value = value
       self.salt = "TA613MitT"
-      self.a = 0.033128132  #these numbers are assigned values for the hashing
+      self.a = 0.033128132  #these numbers are assigned values for the hashing, and reflect the algabraic formulas which are used in the hashing algorithms
       self.b = 4541308606
       self.m = 706915480705422413531358259993
       self.p = 820671062463788161947946672849

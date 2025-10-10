@@ -57,7 +57,7 @@ class Black_Scholes:
     
     def calculate_risk_free_interest_rate(self):
         try:
-            rate_ticker = yf.Ticker("^TNX")
+            rate_ticker = yf.Ticker("^TNX") # To calculate the options price, the risk-free interest rate is needed
             interest_rate = rate_ticker.fast_info['lastPrice']
             self.r = interest_rate / 100
         except Exception as e:

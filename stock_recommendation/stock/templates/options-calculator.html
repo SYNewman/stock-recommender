@@ -4,9 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Options Pricing Calculator</title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
     </head>
     <body>
         
@@ -23,7 +21,7 @@
             <button type="submit">Calculate Option Price</button>
         </form>
 
-        {%if show_result == True%}
+        {%if show_result == True%} <!--shows option price if the form has been submitted-->
         <h3>Option Price</h3>
             <h2>Call: {{call}}</h2>
             <h2>Put: {{put}}</h2>
@@ -35,7 +33,5 @@
             of this model. <br> Do not trade options or use this calculator without
             properly understanding how they work and the risks involved.
         </p>
-
-        <script src="" async defer></script>
     </body>
 </html>

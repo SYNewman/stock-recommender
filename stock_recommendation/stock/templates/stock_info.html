@@ -4,9 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{{stock.company_name|default:"No data"}}</title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
         <meta http-equiv="refresh" content="600"> <!--auto refreshes every 10 mins-->
     </head>
     <body>
@@ -48,9 +46,5 @@
                 <p>Sell: {{recommendations.total_sell_signals|default:0}}</p>
             </div>
         </div>
-
-        <p>Last updated at {{stock.last_updated|default:"No data"}}</p>
-        
-        <script src="" async defer></script>
     </body>
 </html>

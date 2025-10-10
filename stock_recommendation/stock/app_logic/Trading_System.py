@@ -9,13 +9,14 @@ from .strategies.bollinger_bands import Bollinger_Bands_Strategy
 class Trading_System:
     
     def __init__(self):
-        self.list_of_operations = deque()
+        self.list_of_operations = deque() #creates the queue data structure
     
     
     def compile_queue(self): #Makes the list of operations
         # Get all stock data
         from stock.models import Stock
         list_of_stocks = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").values('ticker')[100:201]
+        #[100:201] is just to run the programme on a smaller number of stocks to save loading time]
         
         def process(i): #Updates & gets new data
             try:

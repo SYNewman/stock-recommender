@@ -22,7 +22,7 @@ import plotly.graph_objects as graph
 
 
 def home_page(request):
-    return render(request, "home.html")
+    return render(request, "home.html") #Go to this page (home.html)
 
 
 
@@ -34,8 +34,7 @@ def tutorial_page(request):
 def sign_up_page(request):
     if request.method == "POST":
         
-        # Over here should be the code for multiple fields. Change it later
-        
+        # Check if data entered is valid and create user
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -45,6 +44,7 @@ def sign_up_page(request):
         form = UserCreationForm()
             
     return render(request, "sign_up.html", {"form": form})
+    # {"form": form} is the context which is used in the html file
 
 
 
@@ -75,14 +75,12 @@ def log_out_page(request):
 
 
 
-@login_required
+@login_required #decorator which requires user to be logged in to see this page
 def recommendations_page(request):
     # Update stock data
     trading_system = Trading_System.Trading_System()
     trading_system.compile_queue()
     trading_system.run_operations()
-    
-    #data = Stock.objects.prefetch_related("stock_data", "strategies", "recommendations").all() #shows stocks which don't have data - should only be used for testing
     
     # Fetches the new data
     data = Stock.objects.annotate(
@@ -93,7 +91,7 @@ def recommendations_page(request):
         company_name__isnull=False, has_price=True #Checks that the stock's company name exists
         ).prefetch_related("stock_data", "recommendations") #Links to other tables
     
-    # Pagination
+    # Pagination (splits the stocks up into multiple pages)
     paginator = Paginator(data, 100) #Shows only 100 stocks per page
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
@@ -109,7 +107,7 @@ def stock_info_page(request, ticker):
     stock = StockData.objects.get(ticker=ticker)
     stock_prices = stock.last_200_close_prices[0:200]
     
-    figure = graph.Figure()
+    figure = graph.Figure() #creates the graph data structure
     scatter = graph.Scatter(y=stock_prices, mode="lines", name=f"{ticker} Prices")
     figure.add_trace(scatter)
     

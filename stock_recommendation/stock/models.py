@@ -32,7 +32,7 @@ class StockData(models.Model):
     price_change_percent = models.FloatField(null=True, blank=True)
     
     def __str__(self):
-        return f"{self.ticker}"
+        return f"{self.ticker}" #Makes string representation of object in the admin panel is primary key, not just a number
     
 
 # Contains each strategies' signal
@@ -61,19 +61,3 @@ class Recommendations(models.Model):
     
     def __str__(self):
         return f"{self.ticker}"
-    
-
-'''
-This is for testing purposes
-@receiver(pre_save, sender=Stock)
-def before_stock_save(sender, instance, **kwargs):
-    print(f"Before saving stock: {instance.ticker}")
-
-@receiver(post_save, sender=Stock)
-def after_stock_save(sender, instance, created, **kwargs):
-    if created:
-        print(f"New stock created: {instance.ticker}")
-    else:
-        print(f"Stock updated: {instance.ticker}")
-        print(f"{instance.ticker}: {instance.company_name}, {instance.sector}")
-'''

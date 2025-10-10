@@ -4,9 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Recommendations</title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
         <meta http-equiv="refresh" content="600"> <!--auto refreshes every 10 mins-->
     </head>
     <body>
@@ -52,7 +50,7 @@
         </table>
 
 
-        <div class="pagination">
+        <div class="pagination"> <!--pagination to only show a few stocks at a time-->
             {% if page_object.has_previous %}
               <a href="?page=1">First</a>
               <a href="?page={{ page_object.previous_page_number }}">Previous</a>
@@ -65,7 +63,5 @@
               <a href="?page={{ page_object.paginator.num_pages }}">Last</a>
             {% endif %}
         </div>
-        
-        <script src="" async defer></script>
     </body>
 </html>
